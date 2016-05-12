@@ -26,9 +26,11 @@
 //
 #define CONTACTMESSAGE @"/Interface/Message/getContactMessage "
 #define PAGESIZE  10
+//
+#define CONTACTLIST @"/Interface/Contact/getList"
 
 
-
+#import "KFZNet.h"
 
 #endif /* PrefixHeader_pch */
 

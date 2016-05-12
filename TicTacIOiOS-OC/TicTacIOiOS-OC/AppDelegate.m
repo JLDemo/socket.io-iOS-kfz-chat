@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "SecondViewController.h"
+#import "KFZMainViewController.h"
 
 @interface AppDelegate ()
 
@@ -19,10 +20,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] init];
-//    Sec *vc = [[UIViewController alloc] init];
-//    SecondViewController *sVC = [[SecondViewController alloc] init];
-    ViewController *vc = [[ViewController alloc] init];
-    self.window.rootViewController = vc;
+    
+//    ViewController *vc = [[ViewController alloc] init];
+    KFZMainViewController *mainVC = [[KFZMainViewController alloc] init];
+    self.window.rootViewController = mainVC;
     [self.window makeKeyAndVisible];
     
     return YES;
