@@ -10,8 +10,8 @@
 
 @interface KFZMessage : NSObject
 @property (assign, nonatomic) NSUInteger typingUserId;
-
+@property (copy, nonatomic) NSString *userName;
 @property (copy, nonatomic) NSString *msg;
 
-+ (instancetype)messageWithUserId:(NSUInteger)userId msg:(NSString *)msg;
++ (instancetype)messageWithUserId:(NSUInteger)userId userName:(NSString *)userName msg:(NSString *)msg;
 @end

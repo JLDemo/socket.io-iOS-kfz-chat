@@ -23,9 +23,9 @@
 #define VERSION @"version=1.4.5"
 
 
+//
 #define CONTACTMESSAGE @"/Interface/Message/getContactMessage "
-
-
+#define PAGESIZE  10
 
 
 

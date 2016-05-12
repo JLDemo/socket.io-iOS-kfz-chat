@@ -25,6 +25,7 @@
 @property (assign, nonatomic, getter=isTyping) BOOL typing;
 @property (strong, nonatomic) SocketAckEmitter *ack;
 // --------------------- UI
+@property (weak, nonatomic) UIRefreshControl *refresh;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 
@@ -49,6 +50,7 @@
 }
 - (void)addRefresh {
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    _refresh = refresh;
     [self.tv addSubview:refresh];
     [refresh addTarget:self action:@selector(downRefresh) forControlEvents:UIControlEventValueChanged];
 }
@@ -211,7 +213,7 @@
         return;
     }
     self.typing = YES;
-    KFZMessage *msg = [KFZMessage messageWithUserId:typingUserId msg:@"typing..."];
+    KFZMessage *msg = [KFZMessage messageWithUserId:typingUserId userName:@"银象" msg:nil];
     [self.dataSource addObject:msg];
     [self.tv reloadData];
 }
@@ -225,7 +227,8 @@
     }
     NSString *sendName = dic[@"senderNickname"];
     NSString *msgContent = dic[@"msgContent"];
-    msg.msg = [NSString stringWithFormat:@"%@ : %@",sendName,msgContent];
+    msg.userName = sendName;
+    msg.msg = msgContent;
 //    self.textField.text = msgContent;
     
     [self.tv reloadData];
@@ -236,8 +239,7 @@
     NSString *sender = result[@"senderNickname"];
     sender = [sender stringByRemovingPercentEncoding];
     NSString *content = result[@"msgContent"];
-    NSString *msg = [NSString stringWithFormat:@"---  %@ : %@",content,sender];
-    KFZMessage *model = [KFZMessage messageWithUserId:(NSString *)result[@"sender"] msg:msg];
+    KFZMessage *model = [KFZMessage messageWithUserId:self.result.userId userName:sender msg:content];
     [self.dataSource addObject:model];
     [self.tv reloadData];
 }
@@ -299,7 +301,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell_id];
     }
     KFZMessage *model = self.dataSource[indexPath.row];
-    NSString *text = [[NSString alloc] initWithFormat:@"%d : %@",model.typingUserId,model.msg];
+    NSString *text = [[NSString alloc] initWithFormat:@"%@ : %@",model.userName,model.msg];
     cell.textLabel.text = text;
     
     return cell;
@@ -322,34 +324,34 @@
 
 #pragma -mark 消息记录接口
 - (void)getContactMessage {
-    NSString *urlString = [SERVER stringByAppendingString:CONTACTMESSAGE];
-    urlString = @"http://message.kfz.com/Interface/User/getImsLoginInfo";
+//    NSString *urlString = [SERVER stringByAppendingString:CONTACTMESSAGE];
+//    NSString *urlString = [NSString stringWithFormat:@"%@%@",SERVER,CONTACTMESSAGE];
+    NSString *urlString = @"http://message.kfz.com/Interface/Message/getContactMessage";
+    static NSUInteger page = 1;
     NSDictionary *params = @{
                              @"token" : TOKEN,
                              @"contactId" : @(self.receiverNum),
-                             @"page" : @1,
-                             @"pageSize" : @5
+                             @"page" : @(page++),
+                             @"pageSize" : @PAGESIZE
                              };
-    // @"token=%@&device=IOS&appName=IOS_KFZ_COM&version=1.4.5",TOKEN];
-    NSDictionary *msgParam = @{
-                               @"token" : TOKEN,
-                               @"device" : @"IOS",
-                               @"appName" : @"IOS_KFZ_COM",
-                               @"version" : @"1.4.5"
-                               };
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager POST:urlString parameters:msgParam progress:^(NSProgress * _Nonnull uploadProgress) {
-        ;
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+
+    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary  *responseObject) {
+        NSArray *result = responseObject[@"result"];
+        for (int i=0; i<result.count; i++) {
+            NSDictionary *d = result[i];
+            NSUInteger userId = d[@"sender"];
+            NSString *name = d[@"senderNickname"];
+            NSString *content = d[@"urlContent"];
+            KFZMessage *message = [KFZMessage messageWithUserId:userId userName:name msg:content];
+            [self.dataSource insertObject:message atIndex:0];
+        }
+        [self.tv reloadData];
+        [self.refresh endRefreshing];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
+        [self.refresh endRefreshing];
     }];
-//    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        ;
-//    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        ;
-//    }];
+
   
 
     /*
