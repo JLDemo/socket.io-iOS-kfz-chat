@@ -9,13 +9,18 @@
 #import "KFZMessage.h"
 
 @implementation KFZMessage
-+ (instancetype)messageWithUserId:(NSUInteger)userId userName:(NSString *)userName msg:(NSString *)msg {
-    KFZMessage *obj = [[self alloc] init];
-    obj.typingUserId = userId;
-    obj.userName = userName;
-    obj.msg = msg;
-    return obj;
+
++ (instancetype)messageWithTypingPhoto:(NSString *)photo receiverNickname:(NSString *)receiverNickname {
+    KFZMessage *model = [[self alloc] init];
+    model.receiverPhoto = photo;
+    model.receiverNickname = receiverNickname;
+    model.typing = YES;
+    model.buddy = YES;
+    return model;
 }
+
+
+
 @end
 
 

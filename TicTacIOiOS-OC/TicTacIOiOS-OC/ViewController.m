@@ -8,11 +8,13 @@
 
 #import "ViewController.h"
 #import <SocketIOClientSwift/SocketIOClientSwift-Swift.h>
-#import "KFZResult.h"
+#import "KFZLoginInfo.h"
 #import "KFZSubChannels.h"
 #import "MJExtension.h"
 #import "AFNetWorking.h"
 #import "KFZMessage.h"
+#import "KFZUserInfo.h"
+#import "KFZMsgTableViewCell.h"
 
 
 
@@ -20,10 +22,10 @@
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) SocketIOClient *socket;
 // ---------------------- socket
-@property (strong, nonatomic) KFZResult *result;
 @property (strong, nonatomic) KFZSubChannels *subChannels;
 @property (assign, nonatomic, getter=isTyping) BOOL typing;
 @property (strong, nonatomic) SocketAckEmitter *ack;
+@property (strong, nonatomic) KFZLoginInfo *loginInfo;
 // --------------------- UI
 @property (weak, nonatomic) UIRefreshControl *refresh;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -44,9 +46,15 @@
 }
 - (KFZSubChannels *)subChannels {
     if (!_subChannels) {
-        _subChannels = _result.subChannels;
+        _subChannels = [KFZUserInfo userInfo].subChannels;
     }
     return _subChannels;
+}
+- (KFZLoginInfo *)loginInfo {
+    if (!_loginInfo) {
+        _loginInfo = [KFZUserInfo userInfo];
+    }
+    return _loginInfo;
 }
 - (void)addRefresh {
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
@@ -58,58 +66,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self getIMServerTestSuccess];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
     self.tv.tableFooterView = [[UIView alloc] init];
+    
     // add refresh
     [self addRefresh];
     
-    //
-    self.receiverNum = 201253;
-    self.receiverNickname = @"银象";
+    [self getConnection:self.loginInfo.serverAddress];
 }
 
 
-
-//取得消息 imServer
-- (void)getIMServerTestSuccess {
-    NSString *urlString = @"http://message.kfz.com/Interface/User/getImsLoginInfo";
-    
-    //1.构造URL
-    NSURL *url = [NSURL URLWithString:urlString];
-    //2.构造Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    //(1)设置为POST请求
-    [request setHTTPMethod:@"POST"];
-    
-    //(2)超时
-    [request setTimeoutInterval:60];
-    
-    //(4)设置请求体
-    NSString *bodyStr = [NSString stringWithFormat:@"token=%@&device=IOS&appName=IOS_KFZ_COM&version=1.4.5",TOKEN];
-    
-    NSData *bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *bodyData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:nil];
-    //设置请求体
-    [request setHTTPBody:bodyData];
-    
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        //        NSLog(@"%@",data);
-        
-        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        self.result = [KFZResult mj_objectWithKeyValues:dic[@"result"]];
-        NSString *address = [dic[@"result"] objectForKey:@"serverAddress"];
-        NSLog(@"%@",address);
-//        [self getConnection:address];
-        [self performSelectorOnMainThread:@selector(getConnection:) withObject:address waitUntilDone:NO];
-    }];
-    [task resume];
-}
 
 ////  参数转字典
 - (NSDictionary *)paramsConvertIntoDictonary:(NSString *)paramString {
@@ -160,7 +126,7 @@
 
 
 - (void)listeningSubChannels {
-    KFZSubChannels *subChannels = self.result.subChannels;
+    KFZSubChannels *subChannels = self.subChannels;
 
     /// 提出客户端 ,注意拿到这条消息时，需要判断 socketId 是否为当前 socketId ，一致不处理，不一致提出
     [self.socket on:subChannels.kick callback:^(NSArray *array, SocketAckEmitter *ack) {
@@ -213,34 +179,26 @@
         return;
     }
     self.typing = YES;
-    KFZMessage *msg = [KFZMessage messageWithUserId:typingUserId userName:@"银象" msg:nil];
+    KFZMessage *msg = [KFZMessage messageWithTypingPhoto:self.receiverPhoto receiverNickname:self.receiverNickname];
     [self.dataSource addObject:msg];
+    
     [self.tv reloadData];
 }
 - (void)receiveMessage:(NSDictionary *)dic {
-    dic = dic[@"result"];
-    KFZMessage *msg = [self.dataSource lastObject];
-    
-    if ( msg == nil && ![msg.msg isEqualToString:@"typing..."]) {
-        msg = [[KFZMessage alloc] init];
-        [self.dataSource addObject:msg];
+    KFZMessage *msg = [KFZMessage mj_objectWithKeyValues:dic[@"result"]];
+    msg.buddy = YES;
+    KFZMessage *lastMessage = [self.dataSource lastObject];
+    if (lastMessage && lastMessage.isTyping) {
+        [self.dataSource removeLastObject];
     }
-    NSString *sendName = dic[@"senderNickname"];
-    NSString *msgContent = dic[@"msgContent"];
-    msg.userName = sendName;
-    msg.msg = msgContent;
-//    self.textField.text = msgContent;
-    
+    [self.dataSource addObject:msg];
     [self.tv reloadData];
     self.typing = NO;
 }
 
 - (void)sendMessageSuccess:(NSDictionary *)result {
-    NSString *sender = result[@"senderNickname"];
-    sender = [sender stringByRemovingPercentEncoding];
-    NSString *content = result[@"msgContent"];
-    KFZMessage *model = [KFZMessage messageWithUserId:self.result.userId userName:sender msg:content];
-    [self.dataSource addObject:model];
+    KFZMessage *message = [KFZMessage mj_objectWithKeyValues:result];
+    [self.dataSource addObject:message];
     [self.tv reloadData];
 }
 
@@ -251,9 +209,9 @@
 
 - (void)sendMessage:(SocketAckEmitter *)ack {
     //    sender	发送者编号	true
-    NSUInteger senderNum = self.result.userId;
+    NSUInteger senderNum = self.loginInfo.userId;
     //    senderNickname
-    NSString *senderNickname = self.result.nickname;
+    NSString *senderNickname = self.loginInfo.nickname;
     //    receiver	接收者编号	true
     //    receiverNickname	接受者昵称	true
     //    msgContent	消息内容
@@ -281,8 +239,8 @@
 
 - (void)sendTyping {
     NSDictionary *dic = @{
-                          @"result" : @{
-                                  @"typingUserId" : @(self.result.userId)
+                          @"loginInfo" : @{
+                                  @"typingUserId" : @(self.loginInfo.userId)
                                   },
                           @"status" : @"1"
                           };
@@ -295,19 +253,13 @@
     return self.dataSource.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cell_id = @"ims_cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_id];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell_id];
-    }
+    KFZMsgTableViewCell *cell = [KFZMsgTableViewCell msgTableViewCellWithTableView:tableView];
     KFZMessage *model = self.dataSource[indexPath.row];
-    NSString *text = [[NSString alloc] initWithFormat:@"%@ : %@",model.userName,model.msg];
-    cell.textLabel.text = text;
-    
+    cell.message = model;
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 45;
+    return 80;
     
 }
 
@@ -336,14 +288,14 @@
                              };
 
     [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary  *responseObject) {
-        NSArray *result = responseObject[@"result"];
-        for (int i=0; i<result.count; i++) {
-            NSDictionary *d = result[i];
+        NSArray *loginInfo = responseObject[@"loginInfo"];
+        for (int i=0; i<loginInfo.count; i++) {
+            NSDictionary *d = loginInfo[i];
             NSUInteger userId = d[@"sender"];
             NSString *name = d[@"senderNickname"];
             NSString *content = d[@"urlContent"];
-            KFZMessage *message = [KFZMessage messageWithUserId:userId userName:name msg:content];
-            [self.dataSource insertObject:message atIndex:0];
+//            KFZMessage *message = [KFZMessage messageWithUserId:userId userName:name msg:content];
+//            [self.dataSource insertObject:message atIndex:0];
         }
         [self.tv reloadData];
         [self.refresh endRefreshing];

@@ -18,8 +18,10 @@
 		DB9AABE91CDC347000FF469B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9AABE71CDC347000FF469B /* LaunchScreen.storyboard */; };
 		DB9AABF41CDC347000FF469B /* TicTacIOiOS_OCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9AABF31CDC347000FF469B /* TicTacIOiOS_OCTests.m */; };
 		DB9AABFF1CDC347000FF469B /* TicTacIOiOS_OCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9AABFE1CDC347000FF469B /* TicTacIOiOS_OCUITests.m */; };
+		DBBACADF1CE570A800E76F42 /* KFZMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBACADE1CE570A800E76F42 /* KFZMsgTableViewCell.m */; };
+		DBBACAE21CE574DB00E76F42 /* KFZUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBACAE11CE574DB00E76F42 /* KFZUserInfo.m */; };
 		DBD3E5421CE1C6F5007B59EF /* KFZMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3E5411CE1C6F5007B59EF /* KFZMessage.m */; };
-		DBDAB5DB1CE16C5500C4D0E4 /* KFZResult.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDAB5DA1CE16C5500C4D0E4 /* KFZResult.m */; };
+		DBDAB5DB1CE16C5500C4D0E4 /* KFZLoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDAB5DA1CE16C5500C4D0E4 /* KFZLoginInfo.m */; };
 		DBDAB5E11CE1719300C4D0E4 /* KFZSubChannels.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDAB5E01CE1719300C4D0E4 /* KFZSubChannels.m */; };
 		DBDB7C9E1CE462F400590173 /* KFZNet.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB7C9D1CE462F400590173 /* KFZNet.m */; };
 		DBDB7CA51CE47E0800590173 /* KFZMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB7CA31CE47E0800590173 /* KFZMainViewController.m */; };
@@ -65,10 +67,14 @@
 		DB9AABFA1CDC347000FF469B /* TicTacIOiOS-OCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TicTacIOiOS-OCUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB9AABFE1CDC347000FF469B /* TicTacIOiOS_OCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicTacIOiOS_OCUITests.m; sourceTree = "<group>"; };
 		DB9AAC001CDC347000FF469B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBBACADD1CE570A800E76F42 /* KFZMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZMsgTableViewCell.h; sourceTree = "<group>"; };
+		DBBACADE1CE570A800E76F42 /* KFZMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZMsgTableViewCell.m; sourceTree = "<group>"; };
+		DBBACAE01CE574DA00E76F42 /* KFZUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZUserInfo.h; sourceTree = "<group>"; };
+		DBBACAE11CE574DB00E76F42 /* KFZUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZUserInfo.m; sourceTree = "<group>"; };
 		DBD3E5401CE1C6F5007B59EF /* KFZMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZMessage.h; sourceTree = "<group>"; };
 		DBD3E5411CE1C6F5007B59EF /* KFZMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZMessage.m; sourceTree = "<group>"; };
-		DBDAB5D91CE16C5500C4D0E4 /* KFZResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZResult.h; sourceTree = "<group>"; };
-		DBDAB5DA1CE16C5500C4D0E4 /* KFZResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZResult.m; sourceTree = "<group>"; };
+		DBDAB5D91CE16C5500C4D0E4 /* KFZLoginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZLoginInfo.h; sourceTree = "<group>"; };
+		DBDAB5DA1CE16C5500C4D0E4 /* KFZLoginInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZLoginInfo.m; sourceTree = "<group>"; };
 		DBDAB5DF1CE1719300C4D0E4 /* KFZSubChannels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZSubChannels.h; sourceTree = "<group>"; };
 		DBDAB5E01CE1719300C4D0E4 /* KFZSubChannels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZSubChannels.m; sourceTree = "<group>"; };
 		DBDAB5E21CE1BA0C00C4D0E4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -195,8 +201,8 @@
 		DBDAB5D61CE16BF900C4D0E4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DBDAB5D91CE16C5500C4D0E4 /* KFZResult.h */,
-				DBDAB5DA1CE16C5500C4D0E4 /* KFZResult.m */,
+				DBDAB5D91CE16C5500C4D0E4 /* KFZLoginInfo.h */,
+				DBDAB5DA1CE16C5500C4D0E4 /* KFZLoginInfo.m */,
 				DBDAB5DF1CE1719300C4D0E4 /* KFZSubChannels.h */,
 				DBDAB5E01CE1719300C4D0E4 /* KFZSubChannels.m */,
 				DBD3E5401CE1C6F5007B59EF /* KFZMessage.h */,
@@ -226,6 +232,8 @@
 		DBDAB5D81CE16C1900C4D0E4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DBBACADD1CE570A800E76F42 /* KFZMsgTableViewCell.h */,
+				DBBACADE1CE570A800E76F42 /* KFZMsgTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +243,8 @@
 			children = (
 				DBDB7C9C1CE462F400590173 /* KFZNet.h */,
 				DBDB7C9D1CE462F400590173 /* KFZNet.m */,
+				DBBACAE01CE574DA00E76F42 /* KFZUserInfo.h */,
+				DBBACAE11CE574DB00E76F42 /* KFZUserInfo.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -425,10 +435,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBDB7CA91CE4858800590173 /* KFZContact.m in Sources */,
+				DBBACADF1CE570A800E76F42 /* KFZMsgTableViewCell.m in Sources */,
 				DBD3E5421CE1C6F5007B59EF /* KFZMessage.m in Sources */,
 				DBDAB5E11CE1719300C4D0E4 /* KFZSubChannels.m in Sources */,
-				DBDAB5DB1CE16C5500C4D0E4 /* KFZResult.m in Sources */,
+				DBDAB5DB1CE16C5500C4D0E4 /* KFZLoginInfo.m in Sources */,
 				DB8321DF1CE0959600D024FB /* SecondViewController.m in Sources */,
+				DBBACAE21CE574DB00E76F42 /* KFZUserInfo.m in Sources */,
 				DB9AABE11CDC347000FF469B /* ViewController.m in Sources */,
 				DBDB7C9E1CE462F400590173 /* KFZNet.m in Sources */,
 				DB9AABDE1CDC347000FF469B /* AppDelegate.m in Sources */,

@@ -9,6 +9,8 @@
 #import "KFZMainViewController.h"
 #import "MJExtension.h"
 #import "KFZContact.h"
+#import "ViewController.h"
+#import "KFZUserInfo.h"
 
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -34,6 +36,7 @@
     self.tv.dataSource = self;
     self.tv.rowHeight = 45;
     [self getList];
+    [KFZUserInfo userInfo];
 }
 
 /// 消息联系人接口
@@ -70,6 +73,19 @@
     cell.detailTextLabel.text = model.lastMsgDigest;
     
     return cell;
+}
+#pragma -mark 选择行的点击事件
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ViewController *vc = [[ViewController alloc] init];
+    KFZContact *model = self.dataSource[indexPath.row];
+    
+    vc.receiverNum = model.contactId;
+    vc.receiverNickname = model.contactNickname;
+    vc.receiverPhoto = model.photo;
+    
+    [self.navigationController pushViewController:vc animated:YES];
+//    [self presentViewController:vc animated:YES completion:nil];
 }
 
 

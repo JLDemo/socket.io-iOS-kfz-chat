@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class KFZSubChannels;
 
-@interface KFZResult : NSObject
+@interface KFZLoginInfo : NSObject
 /// "userId":79453,
 @property (assign, nonatomic) NSUInteger userId;
 

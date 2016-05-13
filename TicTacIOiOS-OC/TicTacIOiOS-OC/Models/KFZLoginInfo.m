@@ -6,8 +6,8 @@
 //  Copyright © 2016年 kongfz. All rights reserved.
 //
 
-#import "KFZResult.h"
+#import "KFZLoginInfo.h"
 
-@implementation KFZResult
+@implementation KFZLoginInfo
 
 @end

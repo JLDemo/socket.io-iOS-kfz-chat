@@ -10,10 +10,12 @@
 
 @interface ViewController : UIViewController
 
-/// 接收方id
+/// 对方id
 @property (assign, nonatomic) NSUInteger receiverNum;
-//  接收方姓名
+//  对方姓名
 @property (copy, nonatomic) NSString *receiverNickname;
+//  对方头像
+@property (copy, nonatomic) NSString *receiverPhoto;
 
 
 - (void)sendMessageCallBack:(uint64_t)t array:(NSArray *)array;

@@ -22,6 +22,10 @@
 #define APPNAME @"IOS_KFZ_COM"
 #define VERSION @"version=1.4.5"
 
+// 屏幕尺寸
+#define SCREEN_Width [UIScreen mainScreen].bounds.size.width
+#define SCREEN_Height [UIScreen mainScreen].bounds.size.height
+
 
 //
 #define CONTACTMESSAGE @"/Interface/Message/getContactMessage "
