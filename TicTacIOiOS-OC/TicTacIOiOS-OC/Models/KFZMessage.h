@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, TipStates){
+    tipStatesSuccess = 0,
+    tipStatesSend = 1,
+    tipStatesFaile = 2
+};
+
+
 @interface KFZMessage : NSObject
 
 @property (assign, nonatomic) NSUInteger catId;
@@ -53,6 +60,8 @@
 //    sendTime = "2016-05-13 10:25:26";
 @property (assign, nonatomic, getter=isTyping) BOOL typing;
 @property (assign, nonatomic, getter=isBuddy) BOOL buddy;
+
+@property (assign, nonatomic) TipStates tipState;
 
 + (instancetype)messageWithTypingPhoto:(NSString *)photo receiverNickname:(NSString *)receiverNickname;
 

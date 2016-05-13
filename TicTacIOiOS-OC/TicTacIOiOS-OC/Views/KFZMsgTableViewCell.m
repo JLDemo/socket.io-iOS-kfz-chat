@@ -13,6 +13,9 @@
 @property (weak, nonatomic) UIImageView *photoView;
 @property (weak, nonatomic) UILabel *contentLab;
 @property (weak, nonatomic) UILabel *timeLab;
+
+@property (weak, nonatomic) UILabel *tipLab;
+
 @end
 
 @implementation KFZMsgTableViewCell
@@ -36,7 +39,14 @@
         _timeLab.textColor = [UIColor blackColor];
         _timeLab.font = [UIFont systemFontOfSize:10];
         _timeLab.textAlignment = NSTextAlignmentCenter;
-//        content.backgroundColor = [UIColor cyanColor];
+//        time.backgroundColor = [UIColor cyanColor];
+        // tipLab
+        UILabel *tipLab = [[UILabel alloc] init];
+        [self.contentView addSubview:tipLab];
+        self.tipLab = tipLab;
+        self.tipLab.font = [UIFont systemFontOfSize:15];
+        self.tipLab.textAlignment = NSTextAlignmentCenter;
+//        self.tipLab.backgroundColor = [UIColor cyanColor];
     }
     return self;
 }
@@ -50,6 +60,21 @@
     
     return cell;
 }
+
+- (void)setTipState:(TipStates)state {
+    if (state == tipStatesSend) {
+        self.tipLab.textColor = [UIColor darkGrayColor];
+        self.tipLab.text = @"...";
+    }else if( state == tipStatesSuccess) {
+        self.tipLab.textColor = [UIColor darkGrayColor];
+        self.tipLab.text = @"";
+    }else {
+        self.tipLab.textColor = [UIColor redColor];
+        self.tipLab.text = @"!";
+    }
+}
+
+
 - (void)setMessage:(KFZMessage *)message {
     _message = message;
     NSString *photoString = message.senderPhoto;
@@ -69,12 +94,13 @@
         self.timeLab.text = message.sendTime;
     }
     //
+    
     [self setNeedsLayout];
 }
 
 
-- (void)setNeedsLayout {
-    [super setNeedsLayout];
+- (void)layoutSubviews {
+    [super layoutSubviews];
     CGFloat margin = 10;
     CGFloat photoWH = 30;
     if (self.message.isTyping) {
@@ -85,12 +111,14 @@
         CGFloat contH = self.contentView.frame.size.height - 2*margin;
         self.contentLab.frame = (CGRect){{contX, contY}, {contW, contH}};
         self.timeLab.hidden = YES;
+        self.tipLab.hidden = YES;
     }else if ( self.message.isBuddy ) {
         CGFloat timeX = margin;
         CGFloat timeY = 0;
         CGFloat timeW = SCREEN_Width - 2*margin;
         CGFloat timeH = 20;
         self.timeLab.hidden = NO;
+        self.tipLab.hidden = YES;
         self.timeLab.frame = (CGRect){{timeX, timeY}, {timeW, timeH}};
         //
         CGFloat photoY = CGRectGetMaxY(self.timeLab.frame);
@@ -107,6 +135,7 @@
         CGFloat timeW = SCREEN_Width - 2*margin;
         CGFloat timeH = 20;
         self.timeLab.hidden = NO;
+        self.tipLab.hidden = NO;
         self.timeLab.frame = (CGRect){{timeX, timeY}, {timeW, timeH}};
         //
         CGFloat photoX = SCREEN_Width - margin - photoWH;
@@ -114,10 +143,18 @@
         self.photoView.frame = (CGRect){{photoX, photoY}, {photoWH, photoWH}};
         
         CGFloat contY = CGRectGetMaxY(self.timeLab.frame);
-        CGFloat contW = SCREEN_Width - 3*margin - photoWH;
+        CGFloat contW = SCREEN_Width - 4*margin - photoWH;
         CGFloat contH = self.contentView.frame.size.height - 2*margin;
-        CGFloat contX = margin;
+        CGFloat contX = margin*3;
         self.contentLab.frame = (CGRect){{contX, contY}, {contW, contH}};
+        // tipLab
+        CGFloat tipX = margin;
+        CGFloat tipY = contY;
+        CGFloat tipW = margin*2;
+        CGFloat tipH = margin*2;
+        self.tipLab.frame = (CGRect){{tipX, tipY}, {tipW, tipH}};
+        
+        [self setTipState:self.message.tipState];
     }
 }
 

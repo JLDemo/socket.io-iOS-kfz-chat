@@ -32,6 +32,8 @@
 #define PAGESIZE  10
 //
 #define CONTACTLIST @"/Interface/Contact/getList"
+//
+#define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
 
 
 #import "KFZNet.h"

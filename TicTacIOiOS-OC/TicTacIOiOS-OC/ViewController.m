@@ -62,6 +62,9 @@
     [self.tv addSubview:refresh];
     [refresh addTarget:self action:@selector(downRefresh) forControlEvents:UIControlEventValueChanged];
 }
+- (void)addNavigationItem {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清空消息" style:UIBarButtonItemStylePlain target:self action:@selector(clearMessage)];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,6 +74,7 @@
     
     // add refresh
     [self addRefresh];
+    [self addNavigationItem];
     
     [self getConnection:self.loginInfo.serverAddress];
 }
@@ -81,10 +85,15 @@
 - (NSDictionary *)paramsConvertIntoDictonary:(NSString *)paramString {
     NSArray *kvArray = [paramString componentsSeparatedByString:@"&"];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [kvArray enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSArray *paramArray = [obj componentsSeparatedByString:@"="];
+    for (int i=0; i<kvArray.count; i++) {
+        NSString *str = kvArray[i];
+        NSArray *paramArray = [str componentsSeparatedByString:@"="];
         [params setValue:[paramArray lastObject] forKey:[paramArray firstObject]];
-    }];
+    }
+//    [kvArray enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        NSArray *paramArray = [obj componentsSeparatedByString:@"="];
+//        [params setValue:[paramArray lastObject] forKey:[paramArray firstObject]];
+//    }];
     return params;
 }
 
@@ -165,6 +174,9 @@
 
     [self.socket on:subChannels.messageStateNotice callback:^(NSArray *array, SocketAckEmitter *ack) {
         NSLog(@"==========================messageStateNotice");
+        KFZMessage *message = [self.dataSource lastObject];
+        message.tipState = tipStatesFaile;
+        [self.tv reloadData];
     }];
 
 
@@ -198,13 +210,24 @@
 
 - (void)sendMessageSuccess:(NSDictionary *)result {
     KFZMessage *message = [KFZMessage mj_objectWithKeyValues:result];
+    [self.dataSource removeLastObject];
     [self.dataSource addObject:message];
     [self.tv reloadData];
 }
 
 #pragma -mark 发送消息
 - (IBAction)sendClicked:(UIButton *)sender {
+    NSString *text = self.textField.text;
     [self sendMessage:self.ack];
+    //
+    KFZMessage *message = [KFZMessage messageWithTypingPhoto:[KFZUserInfo userInfo].photo receiverNickname:self.receiverNickname];
+    message.typing = NO;
+    message.buddy = NO;
+    message.msgContent = text;
+    message.sendTime = @"";
+    message.tipState = tipStatesSend;
+    [self.dataSource addObject:message];
+    [self.tv reloadData];
 }
 
 - (void)sendMessage:(SocketAckEmitter *)ack {
@@ -222,14 +245,12 @@
     NSDictionary *params = @{
                              @"sender" : @(senderNum),
                              @"senderNickname" : senderNickname,
-                             @"receiver" : @(self.receiverNum),
+                             @"receiver" : @(self.receiverNum),  //
                              @"receiverNickname" : self.receiverNickname,
                              @"msgContent" : self.textField.text,
-                             @"clientMsgId" : clientMsgId
+                             @"clientMsgId" : clientMsgId  // clientMsgId
                              };
     NSArray *array = @[params];
-    
-//    [self.socket emit:@"NEW_MESSAGE" withItems:array];
     
     [self.socket emitWithAck:@"NEW_MESSAGE" withItems:array](0, ^(NSArray* data) {
         [self.socket emit:self.subChannels.kNewMessage withItems:array];
@@ -288,15 +309,22 @@
                              };
 
     [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary  *responseObject) {
-        NSArray *loginInfo = responseObject[@"loginInfo"];
-        for (int i=0; i<loginInfo.count; i++) {
-            NSDictionary *d = loginInfo[i];
-            NSUInteger userId = d[@"sender"];
-            NSString *name = d[@"senderNickname"];
-            NSString *content = d[@"urlContent"];
-//            KFZMessage *message = [KFZMessage messageWithUserId:userId userName:name msg:content];
-//            [self.dataSource insertObject:message atIndex:0];
+        NSArray *result = responseObject[@"result"];
+        NSMutableArray *modelArray = [KFZMessage mj_objectArrayWithKeyValuesArray:result];
+        if (self.dataSource.count == 0) {
+            self.dataSource = modelArray;
+        }else {
+            for (KFZMessage *m in modelArray) {
+                [self.dataSource insertObject:m atIndex:0];
+            }
         }
+        
+        [self.dataSource sortUsingComparator:^NSComparisonResult(KFZMessage *msg1, KFZMessage *msg2) {
+            NSComparisonResult result = [msg1.sendTime compare:msg2.sendTime];
+            return result;
+        }];
+        
+        
         [self.tv reloadData];
         [self.refresh endRefreshing];
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -304,13 +332,26 @@
         [self.refresh endRefreshing];
     }];
 
-  
-
+}
+#pragma -mark 清空消息记录
+- (void)clearMessage {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CLEARMESSAGE];
+    NSDictionary *params = @{
+                             @"token" : TOKEN,
+                             @"contactId" : @(self.receiverNum)
+                             };
+    
+    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        self.dataSource = nil;
+        [self.tv reloadData];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
+    
+    
     /*
      token	签名	true	注：web用户传空值
-     contactId	联系人Id	true
-     page	页码	true	分页页码
-     pageSize	分页数	true
+     contactId	联系人Id
      */
 }
 

@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "KFZMessage.h"
 
+
+
 @interface KFZMsgTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) KFZMessage *message;
 
 + (instancetype)msgTableViewCellWithTableView:(UITableView *)tableView ;
+
+- (void)setTipState:(TipStates)state;
 
 @end

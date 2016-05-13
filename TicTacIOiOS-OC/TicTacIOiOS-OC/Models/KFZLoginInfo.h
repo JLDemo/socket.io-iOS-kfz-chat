@@ -10,6 +10,7 @@
 @class KFZSubChannels;
 
 @interface KFZLoginInfo : NSObject
+
 /// "userId":79453,
 @property (assign, nonatomic) NSUInteger userId;
 
