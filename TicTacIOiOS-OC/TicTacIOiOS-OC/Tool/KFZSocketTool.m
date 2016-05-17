@@ -191,9 +191,32 @@ static KFZSocketTool *socketTool = nil;
 
 
 + (void)sendMessage:(KFZMessage *)message {
-    SocketIOClient *clientSocket = socketTool.clientSocket;
-//    clientSocket emitWithAck:<#(NSString * _Nonnull)#> withItems:<#(NSArray * _Nonnull)#>
+    //    sender	发送者编号	true
+    NSUInteger senderNum = message.sender;
+    //    senderNickname
+    NSString *senderNickname = message.senderNickname;
+    //    receiver	接收者编号	true
+    //    receiverNickname	接受者昵称	true
+    //    msgContent	消息内容
+    //    clientMsgId	客户端消息Id
+    NSDate *date = [NSDate date];
+    NSString *clientMsgId = [NSString stringWithFormat:@"%lf",[date timeIntervalSince1970]];
+    
+    NSDictionary *params = @{
+                             @"sender" : @(senderNum),
+                             @"senderNickname" : senderNickname,
+                             @"receiver" : @(message.receiver),  //
+                             @"receiverNickname" : message.receiverNickname,
+                             @"msgContent" : message.msgContent,
+                             @"clientMsgId" : clientMsgId  // clientMsgId
+                             };
+    NSArray *array = @[params];
+    
+    [socketTool.clientSocket emitWithAck:@"NEW_MESSAGE" withItems:array](0, ^(NSArray* data) {
+        [socketTool.clientSocket emit:@"NEW_MESSAGE" withItems:array];
+    });
 }
+
 
 
 

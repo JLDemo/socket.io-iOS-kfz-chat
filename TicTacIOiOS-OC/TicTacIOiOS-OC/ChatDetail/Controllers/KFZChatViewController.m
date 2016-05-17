@@ -9,6 +9,7 @@
 #import "KFZChatViewController.h"
 #import "MJRefresh.h"
 #import "MJExtension.h"
+#import "KFZSocketTool.h"
 
 
 @interface KFZChatViewController ()
@@ -32,6 +33,7 @@
     
 }
 
+
 #pragma -mark socket 的代理事件
 - (void)socketTool:(SocketIOClient *)socket buddyIsTyping:(NSArray *)array {
     [self showTyping];
@@ -43,8 +45,12 @@
     [self finishReceivingMessageAnimated:YES];
 }
 - (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array {
-    NSLog(@"sub class must write this method");
+    [self.chatModel.messages addObject:self.sendMessage];
+    [self finishSendingMessageAnimated:YES];
+    self.sendMessage = nil;
 }
+
+
 #pragma -mark 输入工具条点击事件
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
@@ -52,11 +58,14 @@
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date {
     KFZMessage *message = [KFZMessage messageWithSenderId:self.senderId displayName:self.senderDisplayName text:text];
+    self.sendMessage = message;
     message.msgContent = text;
     message.sender = [senderId integerValue];
     message.senderNickname = senderDisplayName;
-    [self.chatModel.messages addObject:message];
-    [self finishSendingMessageAnimated:YES];
+    message.receiver = self.chatModel.buddy.contactId;
+    message.receiverNickname = self.chatModel.buddy.contactNickname;
+    // send
+    [KFZSocketTool sendMessage:self.sendMessage];
 }
 - (void)didPressAccessoryButton:(UIButton *)sender {
 }

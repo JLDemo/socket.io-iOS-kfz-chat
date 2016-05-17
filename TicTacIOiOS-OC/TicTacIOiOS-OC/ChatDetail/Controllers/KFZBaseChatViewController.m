@@ -146,13 +146,7 @@
                   senderId:(NSString *)senderId
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date {
-    KFZMessage *message = [KFZMessage messageWithSenderId:self.senderId displayName:self.senderDisplayName text:text];
-    message.msgContent = text;
-    message.sender = [senderId integerValue];
-    message.senderNickname = senderDisplayName;
-    [self.chatModel.messages addObject:message];
-    [self finishSendingMessageAnimated:YES];
-    NSLog(@"sub class must write this method");
+    
 }
 - (void)didPressAccessoryButton:(UIButton *)sender {
     NSLog(@"sub class must write this method");

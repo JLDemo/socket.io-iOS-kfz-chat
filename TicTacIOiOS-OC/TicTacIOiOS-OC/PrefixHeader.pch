@@ -35,8 +35,7 @@
 #define CONTACTLIST @"/Interface/Contact/getList"
 //
 #define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
-// 发消息
-#define SENDMESSAGE @"/Interface/Message/send"
+
 
 
 // 头像直径

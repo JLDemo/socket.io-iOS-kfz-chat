@@ -16,6 +16,7 @@
 @property (strong, nonatomic) KFZChatModel *chatModel;
 
 
+@property (strong, nonatomic) KFZMessage *sendMessage;
 /// 收到typing消息的效果
 - (void)showTyping;
 
