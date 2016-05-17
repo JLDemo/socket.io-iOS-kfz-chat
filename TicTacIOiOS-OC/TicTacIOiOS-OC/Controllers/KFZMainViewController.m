@@ -12,6 +12,7 @@
 #import "KFZChatViewController.h"
 #import "KFZChatModel.h"
 #import "KFZSocketTool.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource, KFZSocketToolDelegate>
@@ -78,11 +79,16 @@
     static NSString *ID = @"contact_cell_id";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
     }
     KFZContact *model = self.dataSource [indexPath.row];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"icon"]];
+    cell.imageView.layer.cornerRadius = 30;
+    cell.imageView.clipsToBounds = YES;
+//    cell.imageView.image = [UIImage imageNamed:@"icon"];
     cell.textLabel.text = model.contactNickname;
-    cell.detailTextLabel.text = model.lastMsgDigest;
+    NSString *unReadStr = [NSString localizedStringWithFormat:@"%d",model.unreadNum];
+    cell.detailTextLabel.text = model.unreadNum ? unReadStr : @"";
     
     return cell;
 }
@@ -100,7 +106,10 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
+#pragma -mark socket 代理事件
+- (void)socketTool:(SocketIOClient *)socket unReadMessage:(NSArray *)array {
+    
+}
 
 @end
 

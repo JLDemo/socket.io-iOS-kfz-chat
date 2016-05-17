@@ -172,6 +172,8 @@
     NSLog(@"sub class must write this method");
 }
 
+
+//获取历史消息
 - (void)getContactMessage {
     NSDictionary *params = @{
                              @"token" : TOKEN,

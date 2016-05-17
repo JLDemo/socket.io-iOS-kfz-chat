@@ -19,6 +19,8 @@
 - (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array;
 /// 消息状态通知
 - (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array;
+/// 未读消息
+- (void)socketTool:(SocketIOClient *)socket unReadMessage:(NSArray *)array;
 
 @end
 
