@@ -24,11 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## JSMessagesViewController
+## JSQMessagesViewController
 
 
 MIT License
-Copyright (c) 2013 Jesse Squires
+Copyright (c) 2013-present Jesse Squires
 
 http://www.hexedbits.com
 

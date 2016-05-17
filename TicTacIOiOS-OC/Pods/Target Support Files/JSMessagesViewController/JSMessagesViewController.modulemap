@@ -1,6 +1,0 @@
-framework module JSMessagesViewController {
-  umbrella header "JSMessagesViewController-umbrella.h"
-
-  export *
-  module * { export * }
-}

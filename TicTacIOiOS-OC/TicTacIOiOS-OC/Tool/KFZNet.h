@@ -14,9 +14,36 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 @interface KFZNet : NSObject
 
+/// 消息联系人接口
++ (void)getContactList:(NSString *)url param:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
+
+
 ///  get请求
 + (void)GET:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile;
 /// post请求
 + (void)POST:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile;
 
+
+
+
+
+
+
+
+
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+

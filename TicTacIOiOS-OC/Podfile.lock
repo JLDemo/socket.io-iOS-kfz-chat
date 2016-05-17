@@ -14,9 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - JSMessagesViewController (4.0.5):
-    - JSQSystemSoundPlayer (~> 1.0)
-  - JSQSystemSoundPlayer (1.5.2)
+  - JSQMessagesViewController (7.2.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - MJExtension (3.0.10)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
@@ -25,15 +25,15 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
-  - JSMessagesViewController (~> 4.0.5)
+  - JSQMessagesViewController
   - MJExtension (~> 3.0.10)
   - SDWebImage (~> 3.7)
   - Socket.IO-Client-Swift (~> 6.1.1)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  JSMessagesViewController: f4e96ca5c1b626df2be325f60b9f4f51f991fbfe
-  JSQSystemSoundPlayer: 443466bd5f4537d0b7f15a0184244169ae65f8e5
+  JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   Socket.IO-Client-Swift: 86a3744e1da181a4078a24a632bd3acc34b9f1f5

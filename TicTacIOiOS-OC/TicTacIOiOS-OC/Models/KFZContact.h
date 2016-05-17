@@ -32,3 +32,11 @@
 @property (copy, nonatomic) NSString *userType;
 
 @end
+
+
+
+
+
+
+
+

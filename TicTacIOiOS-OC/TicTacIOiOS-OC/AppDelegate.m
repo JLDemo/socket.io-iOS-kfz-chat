@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
-#import "SecondViewController.h"
+
+
 #import "KFZMainViewController.h"
 
 @interface AppDelegate ()

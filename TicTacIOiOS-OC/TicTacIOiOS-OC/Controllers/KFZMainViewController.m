@@ -9,12 +9,16 @@
 #import "KFZMainViewController.h"
 #import "MJExtension.h"
 #import "KFZContact.h"
-#import "ViewController.h"
-#import "KFZUserInfo.h"
+#import "KFZBaseChatViewController.h"
+#import "KFZChatModel.h"
+#import "KFZSocketTool.h"
 
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource>
+
 @property (strong, nonatomic) NSMutableArray *dataSource;
+@property (strong, nonatomic) KFZSocketTool *socketTool;
+
 @end
 
 @implementation KFZMainViewController
@@ -24,10 +28,12 @@
     }
     return _dataSource;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUp];
 }
+
 - (void)setUp{
     self.view.backgroundColor = [UIColor whiteColor];
     self.tv.tableFooterView = [[UIView alloc] init];
@@ -36,7 +42,7 @@
     self.tv.dataSource = self;
     self.tv.rowHeight = 45;
     [self getList];
-    [KFZUserInfo userInfo];
+    self.socketTool = [KFZSocketTool socketTool];
 }
 
 /// 消息联系人接口
@@ -45,7 +51,7 @@
     NSDictionary *params = @{
                              @"token" : TOKEN
                              };
-    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+    [KFZNet getContactList:urlString param:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
         NSArray *resultArray = [responseObject objectForKey:@"result"];
         for (NSDictionary *d in resultArray) {
             KFZContact *model = [KFZContact mj_objectWithKeyValues:d];
@@ -55,6 +61,7 @@
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];
+   
 }
 
 #pragma -mark tableView 代理方法
@@ -74,18 +81,17 @@
     
     return cell;
 }
+
 #pragma -mark 选择行的点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ViewController *vc = [[ViewController alloc] init];
-    KFZContact *model = self.dataSource[indexPath.row];
+    KFZBaseChatViewController *vc = [[KFZBaseChatViewController alloc] init];
     
-    vc.receiverNum = model.contactId;
-    vc.receiverNickname = model.contactNickname;
-    vc.receiverPhoto = model.photo;
+    KFZChatModel *chatModel = [KFZChatModel chatModelWithBuddy:self.dataSource[indexPath.item]];
+    
+    vc.chatModel = chatModel;
     
     [self.navigationController pushViewController:vc animated:YES];
-//    [self presentViewController:vc animated:YES completion:nil];
 }
 
 

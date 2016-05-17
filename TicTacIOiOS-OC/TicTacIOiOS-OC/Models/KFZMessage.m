@@ -14,9 +14,46 @@
     KFZMessage *model = [[self alloc] init];
     model.receiverPhoto = photo;
     model.receiverNickname = receiverNickname;
-    model.typing = YES;
-    model.buddy = YES;
     return model;
+}
+
+
+
+/**
+ *  @return A string identifier that uniquely identifies the user who sent the message.
+ *
+ *  @discussion If you need to generate a unique identifier, consider using
+ *  `[[NSProcessInfo processInfo] globallyUniqueString]`
+ *
+ *  @warning You must not return `nil` from this method. This value must be unique.
+ */
+- (NSString *)senderId {
+    return [NSString stringWithFormat:@"%d",self.sender];
+}
+- (NSString *)senderDisplayName {
+    return self.senderNickname;
+}
+- (NSDate *)date {
+    NSDate *date = [NSDate date];
+    return date;
+}
+
+
+
+
+
+//@optional
+
+/**
+ *  @return The body text of the message.
+ *
+ *  @warning You must not return `nil` from this method.
+ */
+- (NSString *)text {
+    return self.msgContent;
+}
+- (id<JSQMessageMediaData>)media {
+    return nil;
 }
 
 
