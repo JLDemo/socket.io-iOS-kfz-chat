@@ -7,12 +7,16 @@
 //
 
 #import <JSQMessagesViewController/JSQMessagesViewController.h>
+#import <SocketIOClientSwift/SocketIOClientSwift-Swift.h>
 #import "KFZChatModel.h"
+#import "KFZSocketTool.h"
 
-@interface KFZBaseChatViewController : JSQMessagesViewController<JSQMessagesCollectionViewDataSource>
+@interface KFZBaseChatViewController : JSQMessagesViewController<JSQMessagesCollectionViewDataSource, JSQMessagesCollectionViewDelegateFlowLayout, JSQMessagesComposerTextViewPasteDelegate, KFZSocketToolDelegate>
 
 @property (strong, nonatomic) KFZChatModel *chatModel;
 
 
+/// 收到typing消息的效果
+- (void)showTyping;
 
 @end

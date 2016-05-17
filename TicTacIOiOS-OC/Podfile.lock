@@ -18,6 +18,7 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - MJExtension (3.0.10)
+  - MJRefresh (3.1.0)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -27,6 +28,7 @@ DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - JSQMessagesViewController
   - MJExtension (~> 3.0.10)
+  - MJRefresh (~> 3.1.0)
   - SDWebImage (~> 3.7)
   - Socket.IO-Client-Swift (~> 6.1.1)
 
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   Socket.IO-Client-Swift: 86a3744e1da181a4078a24a632bd3acc34b9f1f5
 

@@ -19,9 +19,31 @@
     if (self) {
         self.messages = [NSMutableArray array];
         self.sender = [KFZGetServerInfoTool serverInfo];
+        [self fakeMessage];
     }
     return self;
 }
+
+
+
+- (void)fakeMessage {
+    KFZMessage *msg1 = [KFZMessage messageWithSenderId:@"101" displayName:@"aa" text:@"heell"];  // 1034285
+    msg1.sender = 101;
+    msg1.msgContent = @"hello";
+    
+    KFZMessage *msg2 = [KFZMessage messageWithSenderId:@"102" displayName:@"bb" text:@"hi"];
+    msg2.sender = 102;
+    msg2.msgContent = @"good morning";
+    
+    KFZMessage *msg = [KFZMessage messageWithSenderId:@"1034285" displayName:@"bb" text:@"hi"];
+    msg.sender = 1034285;
+    msg.msgContent = @"大家好";
+    
+    [self.messages addObject:msg];
+    [self.messages addObject:msg1];
+    [self.messages addObject:msg2];
+}
+
 
 + (instancetype)chatModelWithBuddy:(KFZContact *)buddy {
     KFZChatModel *model = [[self alloc] init];
@@ -45,7 +67,7 @@
     JSQMessagesBubbleImageFactory *factory = [[JSQMessagesBubbleImageFactory alloc] init];
     model.inCommingBubbleImage = [factory incomingMessagesBubbleImageWithColor:[UIColor greenColor]];
 //    @property (strong, nonatomic) JSQMessagesBubbleImage *outGoingBubbleImage;
-    model.outGoingBubbleImage = [factory outgoingMessagesBubbleImageWithColor:[UIColor groupTableViewBackgroundColor]];
+    model.outGoingBubbleImage = [factory outgoingMessagesBubbleImageWithColor:[UIColor grayColor]];
     
     
     return model;

@@ -28,13 +28,16 @@
 #define SCREEN_Height [UIScreen mainScreen].bounds.size.height
 
 
-//
+// 取得联系人往来
 #define CONTACTMESSAGE @"/Interface/Message/getContactMessage "
 #define PAGESIZE  10
 //
 #define CONTACTLIST @"/Interface/Contact/getList"
 //
 #define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
+// 发消息
+#define SENDMESSAGE @"/Interface/Message/send"
+
 
 // 头像直径
 #define DIAMETER 30

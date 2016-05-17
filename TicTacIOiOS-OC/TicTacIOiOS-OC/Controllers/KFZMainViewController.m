@@ -9,12 +9,12 @@
 #import "KFZMainViewController.h"
 #import "MJExtension.h"
 #import "KFZContact.h"
-#import "KFZBaseChatViewController.h"
+#import "KFZChatViewController.h"
 #import "KFZChatModel.h"
 #import "KFZSocketTool.h"
 
 
-@interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource, KFZSocketToolDelegate>
 
 @property (strong, nonatomic) NSMutableArray *dataSource;
 @property (strong, nonatomic) KFZSocketTool *socketTool;
@@ -43,6 +43,11 @@
     self.tv.rowHeight = 45;
     [self getList];
     self.socketTool = [KFZSocketTool socketTool];
+    
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.socketTool.delegate = self;
 }
 
 /// 消息联系人接口
@@ -85,7 +90,8 @@
 #pragma -mark 选择行的点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    KFZBaseChatViewController *vc = [[KFZBaseChatViewController alloc] init];
+    KFZChatViewController *vc = [[KFZChatViewController alloc] init];
+    self.socketTool.delegate = vc;
     
     KFZChatModel *chatModel = [KFZChatModel chatModelWithBuddy:self.dataSource[indexPath.item]];
     

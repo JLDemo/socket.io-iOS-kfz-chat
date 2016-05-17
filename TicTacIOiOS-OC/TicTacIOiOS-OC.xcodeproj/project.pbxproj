@@ -18,6 +18,7 @@
 		DBC7D9EB1CE9ADE600B2989B /* KFZSocketTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7D9EA1CE9ADE600B2989B /* KFZSocketTool.m */; };
 		DBC7D9F21CE9BDE500B2989B /* KFZChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7D9F11CE9BDE500B2989B /* KFZChatModel.m */; };
 		DBC7D9F51CE9BF0300B2989B /* KFZBaseChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7D9F41CE9BF0300B2989B /* KFZBaseChatViewController.m */; };
+		DBCAE9241CEABFB000E995F4 /* KFZChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBCAE9231CEABFB000E995F4 /* KFZChatViewController.m */; };
 		DBD3E5421CE1C6F5007B59EF /* KFZMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3E5411CE1C6F5007B59EF /* KFZMessage.m */; };
 		DBDAB5DB1CE16C5500C4D0E4 /* KFZLoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDAB5DA1CE16C5500C4D0E4 /* KFZLoginInfo.m */; };
 		DBDAB5E11CE1719300C4D0E4 /* KFZSubChannels.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDAB5E01CE1719300C4D0E4 /* KFZSubChannels.m */; };
@@ -67,6 +68,8 @@
 		DBC7D9F11CE9BDE500B2989B /* KFZChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZChatModel.m; sourceTree = "<group>"; };
 		DBC7D9F31CE9BF0300B2989B /* KFZBaseChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZBaseChatViewController.h; sourceTree = "<group>"; };
 		DBC7D9F41CE9BF0300B2989B /* KFZBaseChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZBaseChatViewController.m; sourceTree = "<group>"; };
+		DBCAE9221CEABFB000E995F4 /* KFZChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZChatViewController.h; sourceTree = "<group>"; };
+		DBCAE9231CEABFB000E995F4 /* KFZChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZChatViewController.m; sourceTree = "<group>"; };
 		DBD3E5401CE1C6F5007B59EF /* KFZMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KFZMessage.h; path = ../../Models/KFZMessage.h; sourceTree = "<group>"; };
 		DBD3E5411CE1C6F5007B59EF /* KFZMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KFZMessage.m; path = ../../Models/KFZMessage.m; sourceTree = "<group>"; };
 		DBDAB5D91CE16C5500C4D0E4 /* KFZLoginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZLoginInfo.h; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 			children = (
 				DBC7D9F31CE9BF0300B2989B /* KFZBaseChatViewController.h */,
 				DBC7D9F41CE9BF0300B2989B /* KFZBaseChatViewController.m */,
+				DBCAE9221CEABFB000E995F4 /* KFZChatViewController.h */,
+				DBCAE9231CEABFB000E995F4 /* KFZChatViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -467,6 +472,7 @@
 				DBDB7C9E1CE462F400590173 /* KFZNet.m in Sources */,
 				DBC7D9F51CE9BF0300B2989B /* KFZBaseChatViewController.m in Sources */,
 				DB9AABDE1CDC347000FF469B /* AppDelegate.m in Sources */,
+				DBCAE9241CEABFB000E995F4 /* KFZChatViewController.m in Sources */,
 				DBDB7CA51CE47E0800590173 /* KFZMainViewController.m in Sources */,
 				DBC7D9EB1CE9ADE600B2989B /* KFZSocketTool.m in Sources */,
 				DB9AABDB1CDC347000FF469B /* main.m in Sources */,
