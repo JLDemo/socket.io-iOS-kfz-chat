@@ -20,16 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addRefresh];
-}
-
-- (void)addRefresh {
-    typeof(self) ws;
-    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [ws.collectionView.mj_header endRefreshing];
-        });
-    }];
     
 }
 
@@ -44,11 +34,82 @@
     [self.chatModel.messages addObject:message];
     [self finishReceivingMessageAnimated:YES];
 }
+
+// 收到发送消息的反馈(不一定成功)
 - (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array {
-    [self.chatModel.messages addObject:self.sendMessage];
+    NSDictionary *resultDic = [[array firstObject] objectForKey:@"result"];
+    
+    KFZMessage *message = [KFZMessage mj_objectWithKeyValues:resultDic];
+    [self.chatModel.messages addObject:message];
+    
     [self finishSendingMessageAnimated:YES];
-    self.sendMessage = nil;
+    /*
+     (
+         {
+             result =     {
+                 clientId = 9640084527bd776bd0aa99dbdaab6c55;
+                 clientMsgId = "1463468111.058251";
+                 messageId = 329;
+                 msgContent = "\U6211\U6536\U5230";
+                 receiver = 201253;
+                 receiverNickname = "\U94f6\U8c61";
+                 sendTime = "2016-05-17 14:55:10";
+                 sender = 1034285;
+                 senderNickname = "%E4%B8%9C%E5%8C%97%E7%8B%A0%E4%BA%BA1";
+             };
+             status = 1;
+         }
+     )
+     */
 }
+// 消息发送失败的通知
+- (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array {
+    NSDictionary *resultDic = [array firstObject][@"result"];
+    NSUInteger messageId = [resultDic[@"messageId"] integerValue];
+    for (int i=self.chatModel.messages.count - 1; i>=0; i--) {
+        KFZMessage *message = self.chatModel.messages[i];
+        if (message.messageId == messageId) {
+            // 将消息标记为发送失败，并保存到数据库 
+#warning 将消息标记为发送失败，并保存到数据库
+            return;
+        }
+    }
+    /*
+     (
+     {
+         result =     {
+             clientId = 9640084527bd776bd0aa99dbdaab6c55;
+             clientMsgId = "1463124718.651901";
+             messageId = 230;
+             msgContent = "faile test";
+             receiver = "-123";
+             receiverNickname = "\U94f6\U8c61";
+             sendTime = "2016-05-13 15:31:57";
+             sender = 1034285;
+             senderNickname = "%E4%B8%9C%E5%8C%97%E7%8B%A0%E4%BA%BA1";
+         };
+         status = 1;
+     }
+     )
+     */
+}
+
+/*
+ result =     {
+ clientId = 9640084527bd776bd0aa99dbdaab6c55;
+ clientMsgId = "1463468111.058251";
+ messageId = 329;
+ msgContent = "\U6211\U6536\U5230";
+ receiver = 201253;
+ receiverNickname = "\U94f6\U8c61";
+ sendTime = "2016-05-17 14:55:10";
+ sender = 1034285;
+ senderNickname = "%E4%B8%9C%E5%8C%97%E7%8B%A0%E4%BA%BA1";
+ };
+ status = 1;
+
+ */
+
 
 
 #pragma -mark 输入工具条点击事件
@@ -58,17 +119,19 @@
          senderDisplayName:(NSString *)senderDisplayName
                       date:(NSDate *)date {
     KFZMessage *message = [KFZMessage messageWithSenderId:self.senderId displayName:self.senderDisplayName text:text];
-    self.sendMessage = message;
     message.msgContent = text;
     message.sender = [senderId integerValue];
     message.senderNickname = senderDisplayName;
     message.receiver = self.chatModel.buddy.contactId;
     message.receiverNickname = self.chatModel.buddy.contactNickname;
     // send
-    [KFZSocketTool sendMessage:self.sendMessage];
+    [KFZSocketTool sendMessage:message];
 }
 - (void)didPressAccessoryButton:(UIButton *)sender {
+    NSLog(@"didPressAccessoryButton 没有实现");
 }
+
+
 @end
 
 

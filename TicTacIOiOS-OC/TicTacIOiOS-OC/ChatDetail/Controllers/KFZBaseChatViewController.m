@@ -7,7 +7,9 @@
 //
 
 #import "KFZBaseChatViewController.h"
-
+#import "MJRefresh.h"
+#import "MJExtension.h"
+#import "KFZNet.h"
 
 @interface KFZBaseChatViewController ()
 
@@ -24,7 +26,18 @@
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"receive" style:UIBarButtonItemStylePlain target:self action:@selector(showTyping)];
-    
+    [self addRefresh];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.page = 1;
+}
+
+- (void)addRefresh {
+    typeof(self) ws = self;
+    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [ws getContactMessage];
+    }];
     
 }
 
@@ -81,13 +94,15 @@
     return self.chatModel.inCommingAvatarImage;
 }
 
+#pragma -mark 显示时间
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-//    KFZMessage *message = self.chatModel.messages[indexPath.item];
+    KFZMessage *message = self.chatModel.messages[indexPath.item];
+    NSString *timeStr = message.sendTime ? message.sendTime : @"没有时间";
     NSDictionary *atts = @{
                            NSForegroundColorAttributeName : [UIColor blackColor]
                            };
     
-    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:@"2016-05-10 15:50:37" attributes:atts];
+    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:timeStr attributes:atts];
     return attStr;
 }
 //- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
@@ -129,17 +144,6 @@
     return NO;
 }
 
-#pragma -mark socket 的代理事件
-- (void)socketTool:(SocketIOClient *)socket buddyIsTyping:(NSArray *)array {
-    NSLog(@"sub class must write this method");
-}
-- (void)socketTool:(SocketIOClient *)socket getBuddyMessage:(NSArray *)array {
-    NSLog(@"sub class must write this method");
-}
-- (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array {
-    NSLog(@"sub class must write this method");
-}
-
 #pragma -mark 输入工具条点击事件
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
@@ -150,6 +154,97 @@
 }
 - (void)didPressAccessoryButton:(UIButton *)sender {
     NSLog(@"sub class must write this method");
+}
+
+
+#pragma -mark 子类必须实现的方法
+#pragma -mark socket 的代理事件
+- (void)socketTool:(SocketIOClient *)socket buddyIsTyping:(NSArray *)array {
+    NSLog(@"sub class must write this method");
+}
+- (void)socketTool:(SocketIOClient *)socket getBuddyMessage:(NSArray *)array {
+    NSLog(@"sub class must write this method");
+}
+- (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array {
+    NSLog(@"sub class must write this method");
+}
+- (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array {
+    NSLog(@"sub class must write this method");
+}
+
+- (void)getContactMessage {
+    NSDictionary *params = @{
+                             @"token" : TOKEN,
+                             @"contactId" : @(self.chatModel.buddy.contactId),
+                             @"page" : @(self.page),
+                             @"pageSize" : @(MESSAGE_PAGESIZE)
+                             };
+    [KFZNet getContactMessageParam:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+        self.page = [[responseObject[@"pager"] objectForKey:@"pageCurr"] integerValue] + 1;
+        NSArray *resultArray = responseObject[@"result"];
+        NSMutableArray *modelArray = [KFZMessage mj_objectArrayWithKeyValuesArray:resultArray];
+        [modelArray sortUsingComparator:^NSComparisonResult(KFZMessage *msg1, KFZMessage *msg2) {
+            NSComparisonResult result = [msg1.sendTime compare:msg2.sendTime];
+            return result;
+        }];
+        [modelArray addObjectsFromArray:self.chatModel.messages];
+        self.chatModel.messages = modelArray;
+        
+        [self.collectionView reloadData];
+        [self.collectionView.mj_header endRefreshing];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self.collectionView.mj_header endRefreshing];
+        DLog(@"%@",error);
+    }];
+    
+    /*
+     {
+         pager =     {
+             pageCurr = 1;
+             pageShow = 10;
+             recordAfter = 0;
+             recordBefore = 0;
+             recordCount = 42;
+         };
+         requestInfo =     {
+             contactId = 201253;
+             page = 1;
+             pageSize = 10;
+             token = "testToken_1034285";
+         };
+         result =     (
+             {
+                 catId = 1001;
+                 digest = fine;
+                 isRead = 1;
+                 isReplyed = 0;
+                 messageId = 148;
+                 msgContent = fine;
+                 receiver = 1034285;
+                 receiverDeleteTime = "2016-05-12 16:52:26";
+                 receiverDeleted = 0;
+                 receiverNickname = "\U4e1c\U5317\U72e0\U4eba1";
+                 receiverPhoto = "http://user.kfz.com/data/member_pic/4285/1034285.jpg";
+                 receiverSaveTime = "2016-05-12 16:52:26";
+                 receiverSaved = 0;
+                 richContent =             (
+                 );
+                 sendTime = "2016-05-12 16:52:25";
+                 sender = 201253;
+                 senderDeleteTime = "2016-05-12 16:52:26";
+                 senderDeleted = 0;
+                 senderNickname = "\U94f6\U8c61";
+                 senderPhoto = "http://user.kfz.com/data/member_pic/1253/201253.jpg";
+                 senderSaveTime = "2016-05-12 16:52:26";
+                 senderSaved = 0;
+                 urlContent = fine;
+             }
+         ………
+         );
+         status = 1;
+     }
+
+     */
 }
 
 @end

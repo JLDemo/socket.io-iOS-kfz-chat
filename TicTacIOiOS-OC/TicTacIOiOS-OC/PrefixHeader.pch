@@ -29,7 +29,7 @@
 
 
 // 取得联系人往来
-#define CONTACTMESSAGE @"/Interface/Message/getContactMessage "
+#define CONTACTMESSAGE @"/Interface/Message/getContactMessage"
 #define PAGESIZE  10
 //
 #define CONTACTLIST @"/Interface/Contact/getList"
@@ -40,10 +40,22 @@
 
 // 头像直径
 #define DIAMETER 30
-
+// 获取聊天记录的pageSize
+#define MESSAGE_PAGESIZE 5
 
 
 #import "KFZNet.h"
+
+
+#define ZSCDEBUG
+#ifdef ZSCDEBUG
+#       define DLog(fmt, ...) NSLog((@"%s [Line %d] \n===================\n" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#       define DLog(...)
+#endif
+
+
+
 
 #endif /* PrefixHeader_pch */
 

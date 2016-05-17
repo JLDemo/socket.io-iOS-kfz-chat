@@ -22,6 +22,12 @@
     }];
     
 }
+
+/// 获取消息记录
++ (void)getContactMessageParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CONTACTMESSAGE];
+    [self POST:urlString params:param success:success faile:faile];
+}
     
 
 
@@ -39,3 +45,15 @@
 
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+

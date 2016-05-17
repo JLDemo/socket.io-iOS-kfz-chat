@@ -14,10 +14,12 @@
 @interface KFZBaseChatViewController : JSQMessagesViewController<JSQMessagesCollectionViewDataSource, JSQMessagesCollectionViewDelegateFlowLayout, JSQMessagesComposerTextViewPasteDelegate, KFZSocketToolDelegate>
 
 @property (strong, nonatomic) KFZChatModel *chatModel;
-
+@property (assign, nonatomic) NSUInteger page;
 
 @property (strong, nonatomic) KFZMessage *sendMessage;
 /// 收到typing消息的效果
 - (void)showTyping;
+
+- (void)addRefresh;
 
 @end

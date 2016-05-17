@@ -19,7 +19,7 @@
     if (self) {
         self.messages = [NSMutableArray array];
         self.sender = [KFZGetServerInfoTool serverInfo];
-        [self fakeMessage];
+//        [self fakeMessage];
     }
     return self;
 }
@@ -68,7 +68,6 @@
     model.inCommingBubbleImage = [factory incomingMessagesBubbleImageWithColor:[UIColor greenColor]];
 //    @property (strong, nonatomic) JSQMessagesBubbleImage *outGoingBubbleImage;
     model.outGoingBubbleImage = [factory outgoingMessagesBubbleImageWithColor:[UIColor grayColor]];
-    
     
     return model;
 }

@@ -155,7 +155,9 @@ static KFZSocketTool *socketTool = nil;
 //    /// 消息状态通知
 //    @property (copy, nonatomic) NSString *messageStateNotice;
     [socketTool.clientSocket on:subChannels.messageStateNotice callback:^(NSArray *array, SocketAckEmitter *ack) {
-        ;
+        if ([socketTool.delegate respondsToSelector:@selector(socketTool:sendMessageStateNotice:)]) {
+            [socketTool.delegate socketTool:socketTool.clientSocket sendMessageStateNotice:array];
+        }
     }];
     
 //    /// 广播消息
@@ -205,9 +207,9 @@ static KFZSocketTool *socketTool = nil;
     NSDictionary *params = @{
                              @"sender" : @(senderNum),
                              @"senderNickname" : senderNickname,
-                             @"receiver" : @(message.receiver),  //
+                             @"receiver" : @(message.receiver),  //  @(message.receiver)
                              @"receiverNickname" : message.receiverNickname,
-                             @"msgContent" : message.msgContent,
+                             @"msgContent" : message.msgContent, //
                              @"clientMsgId" : clientMsgId  // clientMsgId
                              };
     NSArray *array = @[params];

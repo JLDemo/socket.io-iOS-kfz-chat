@@ -48,6 +48,7 @@
 //urlContent = off;
 //———————————————
 //    clientId = 9640084527bd776bd0aa99dbdaab6c55;
+@property (assign, nonatomic) NSUInteger clientId;
 //    clientMsgId = "1463106327.114970";
 @property (copy, nonatomic) NSString *clientMsgId;
 

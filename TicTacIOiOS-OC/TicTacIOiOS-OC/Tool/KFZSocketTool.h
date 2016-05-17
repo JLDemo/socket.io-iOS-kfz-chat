@@ -17,8 +17,11 @@
 - (void)socketTool:(SocketIOClient *)socket buddyIsTyping:(NSArray *)array;
 - (void)socketTool:(SocketIOClient *)socket getBuddyMessage:(NSArray *)array;
 - (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array;
+/// 消息状态通知
+- (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array;
 
 @end
+
 
 @interface KFZSocketTool : NSObject<NSURLSessionDelegate>
 
@@ -26,7 +29,6 @@
 
 @property (strong, nonatomic) SocketIOClient *clientSocket;
 @property (strong, nonatomic) KFZLoginInfo *loginInfo;
-
 
 + (instancetype)socketTool;
 + (KFZLoginInfo *)getLoginInfo;
