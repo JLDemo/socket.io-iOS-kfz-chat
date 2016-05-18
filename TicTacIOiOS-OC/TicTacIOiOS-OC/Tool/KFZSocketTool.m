@@ -7,11 +7,10 @@
 //
 
 #import "KFZSocketTool.h"
-#import "MJExtension.h"
+
 #import "KFZNet.h"
 #import "KFZSubChannels.h"
 
-typedef void(^MSGBlock)(NSString *serverAddress);
 
 @implementation KFZSocketTool
 
@@ -20,21 +19,23 @@ static KFZSocketTool *socketTool = nil;
 
 
 + (instancetype)socketTool {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        socketTool = [[self alloc] init];
-    });
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        socketTool = [[self alloc] init];
+//    });
     return socketTool;
 }
 
 + (void)initialize {
     [super initialize];
+    socketTool = [[self alloc] init];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         MSGBlock b = ^(NSString *serverAddress){
             [self getConnection:serverAddress];
         };
-        [self getIMServerTestSuccess:b];
+//        [self getIMServerTestSuccess:b];
+        [KFZNet getIMServerTestSuccess:b socketTool:socketTool];
     });
 }
 
@@ -46,22 +47,7 @@ static KFZSocketTool *socketTool = nil;
 }
 
 
-//取得消息 imServer
-+ (void)getIMServerTestSuccess:(MSGBlock)sb {
-    NSString *urlString = @"http://message.kfz.com/Interface/User/getImsLoginInfo";
-    NSDictionary *params = @{
-                             @"token" : TOKEN,
-                             @"device" : @"IOS",
-                             @"appName" : @"IOS_KFZ_COM",
-                             @"version" : @"1.4.5"
-                             };
-    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
-        socketTool.loginInfo = [KFZLoginInfo mj_objectWithKeyValues:responseObject[@"result"]];
-        sb(socketTool.loginInfo.serverAddress);
-    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
-    }];
-}
+
 
 
 ////  参数转字典

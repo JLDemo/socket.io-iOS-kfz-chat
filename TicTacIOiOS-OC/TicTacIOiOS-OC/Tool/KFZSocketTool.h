@@ -11,6 +11,9 @@
 #import "KFZGetServerInfoTool.h"
 #import "KFZMessage.h"
 
+typedef void(^MSGBlock)(NSString *serverAddress);
+
+
 @protocol KFZSocketToolDelegate <NSObject>
 
 @optional

@@ -7,6 +7,7 @@
 //
 
 #import "KFZNet.h"
+#import "MJExtension.h"
 
 @implementation KFZNet
 
@@ -29,7 +30,24 @@
     [self POST:urlString params:param success:success faile:faile];
 }
     
-
+//取得消息 imServer
++ (void)getIMServerTestSuccess:(MSGBlock)sb socketTool:(KFZSocketTool *)socketTool {
+    NSString *urlString = @"http://message.kfz.com/Interface/User/getImsLoginInfo";
+    NSDictionary *params = @{
+                             @"token" : TOKEN,
+                             @"device" : @"IOS",
+                             @"appName" : @"IOS_KFZ_COM",
+                             @"version" : @"1.4.5"
+                             };
+    [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+        socketTool.loginInfo = [KFZLoginInfo mj_objectWithKeyValues:responseObject[@"result"]];
+        if (socketTool.loginInfo.serverAddress.length) {
+            sb(socketTool.loginInfo.serverAddress);
+        }
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
+}
 
 + (void)GET:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
