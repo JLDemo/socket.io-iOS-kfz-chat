@@ -31,6 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.page = 1;
+    [self getContactMessage];
 }
 
 - (void)addRefresh {

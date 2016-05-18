@@ -88,6 +88,9 @@
 //    cell.imageView.image = [UIImage imageNamed:@"icon"];
     cell.textLabel.text = model.contactNickname;
     NSString *unReadStr = [NSString localizedStringWithFormat:@"%d",model.unreadNum];
+    if (model.unreadNum>99) {
+        unReadStr = @"99+";
+    }
     cell.detailTextLabel.text = model.unreadNum ? unReadStr : @"";
     
     return cell;
@@ -99,7 +102,11 @@
     KFZChatViewController *vc = [[KFZChatViewController alloc] init];
     self.socketTool.delegate = vc;
     
-    KFZChatModel *chatModel = [KFZChatModel chatModelWithBuddy:self.dataSource[indexPath.item]];
+    KFZContact *contact = self.dataSource[indexPath.item];
+    contact.unreadNum = 0;
+    [self.tv reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
+    KFZChatModel *chatModel = [KFZChatModel chatModelWithBuddy:contact];
     
     vc.chatModel = chatModel;
     
@@ -109,8 +116,13 @@
 #pragma -mark socket 代理事件
 - (void)socketTool:(SocketIOClient *)socket unReadMessage:(NSArray *)array {
     NSDictionary *resultDic = [array firstObject][@"result"];
-    NSUInteger unreadNum = [resultDic[@"unreadNum"] integerValue];
-    NSUInteger userId = [resultDic[@"userId"] integerValue];
+    NSDictionary *unreadListDic = resultDic[@"unreadList"];
+    NSArray *keyArray = [unreadListDic allKeys];
+    NSString *key = [keyArray firstObject];
+    
+    NSUInteger unreadNum = [unreadListDic[key] integerValue];
+    NSUInteger userId = [key integerValue];
+    
     int i = 0;
     for (; i<self.dataSource.count; i++) {
         KFZContact *contat = self.dataSource[i];
