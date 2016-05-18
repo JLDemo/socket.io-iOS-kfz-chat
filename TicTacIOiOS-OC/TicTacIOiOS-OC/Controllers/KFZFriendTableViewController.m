@@ -28,12 +28,13 @@
 
 - (void)addItem {
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain target:self action:@selector(addFriend)];
-//    UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:@"..." style:UIBarButtonItemStylePlain target:self action:@selector()];
+//    UIBarButtonItem *modifyName = [[UIBarButtonItem alloc] initWithTitle:@"改名" style:UIBarButtonItemStylePlain target:self action:@selector(modifyName)];
     self.navigationItem.rightBarButtonItems = @[add];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"好友列表";
     self.page = 1;
     
     
@@ -80,7 +81,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self modifyFriendNameIndexPath:indexPath];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,7 +159,27 @@
      friendId	好友id
      */
 }
-
+- (void)modifyFriendNameIndexPath:(NSIndexPath *)indexPath {
+    KFZFriend *model = self.dataSource[indexPath.row];
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"friendId" : @(model.friendId),
+                            @"remark" : @"name"
+                            };
+    
+    [KFZNet modifyFriendNameParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        self.dataSource = nil;
+        [self getFriendList];
+        [self.tableView reloadData];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        DLog(@"====================== 修改备注失败,%@",error);
+    }];
+    /*
+     token	签名	true	注：web用户传空值
+     friendId	好友id	true	``
+     remark	备注
+     */
+}
 @end
 
 

@@ -31,7 +31,7 @@
 }
 
 - (void)addItem {
-    UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"friend" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
+    UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"friend list" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
     self.navigationItem.rightBarButtonItems = @[friend];
 }
 
@@ -42,6 +42,7 @@
 }
 
 - (void)setUp{
+    self.navigationItem.title = @"会话列表";
     self.view.backgroundColor = [UIColor whiteColor];
     self.tv.tableFooterView = [[UIView alloc] init];
     self.tv.backgroundColor = [UIColor whiteColor];
