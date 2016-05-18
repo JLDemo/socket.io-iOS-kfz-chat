@@ -20,6 +20,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addToolBar];
+}
+- (void)addToolBar {
+    
     
 }
 
@@ -111,8 +115,6 @@
  status = 1;
 
  */
-
-
 
 #pragma -mark 输入工具条点击事件
 - (void)didPressSendButton:(UIButton *)button

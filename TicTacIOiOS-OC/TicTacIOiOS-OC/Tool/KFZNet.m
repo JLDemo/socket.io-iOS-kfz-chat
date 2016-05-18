@@ -11,6 +11,26 @@
 
 @implementation KFZNet
 
+/// 取得好友列表
++ (void)getFriendListParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,FRIEND_LIST];
+    [self POST:urlString params:param success:success faile:faile];
+}
+/// 删除好友
++ (void)deleteFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,DELETE_FRIEND];
+    [self POST:urlString params:param success:success faile:faile];
+}
+/// 添加好友
++ (void)addFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,ADD_FRIEND];
+    [self POST:urlString params:param success:success faile:faile];
+}
+/// 添加好友备注
++ (void)modifyFriendNameParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,MODIFY_FRIEND_NAME];
+    [self POST:urlString params:param success:success faile:faile];
+}
 
 
 
@@ -46,6 +66,8 @@
                              @"version" : @"1.4.5"
                              };
     [KFZNet POST:urlString params:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+//        NSDictionary *result = responseObject[@"result"];
+//        DLog(@"%@",result[@"nickname"]);
         socketTool.loginInfo = [KFZLoginInfo mj_objectWithKeyValues:responseObject[@"result"]];
         if (socketTool.loginInfo.serverAddress.length) {
             sb(socketTool.loginInfo.serverAddress);

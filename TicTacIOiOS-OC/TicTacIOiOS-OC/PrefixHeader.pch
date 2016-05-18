@@ -35,6 +35,20 @@
 #define CONTACTLIST @"/Interface/Contact/getList"
 //
 #define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
+// 添加好友备注
+#define MODIFY_FRIEND_NAME @"/Interface/Contact/modifyFriendRemark"
+// 添加好友
+#define ADD_FRIEND @"/Interface/Contact/addFriend"
+// 取得好友列表
+#define FRIEND_LIST @"/Interface/Contact/getFriendList"
+// 删除好友
+#define DELETE_FRIEND @"/Interface/Contact/delFriend"
+
+
+
+
+
+
 
 
 

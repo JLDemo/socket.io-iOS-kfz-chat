@@ -15,6 +15,18 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 @interface KFZNet : NSObject
 
+#pragma -mark 好友相关
+/// 删除好友
++ (void)deleteFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
+/// 取得好友列表
++ (void)getFriendListParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
+/// 添加好友
++ (void)addFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
+/// 添加好友备注
++ (void)modifyFriendNameParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
+
+
+#pragma -mark 消息相关
 /// 消息联系人接口
 + (void)getContactList:(NSString *)url param:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
 /// 获取消息记录

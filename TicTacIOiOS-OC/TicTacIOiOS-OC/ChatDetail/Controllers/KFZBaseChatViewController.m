@@ -7,9 +7,7 @@
 //
 
 #import "KFZBaseChatViewController.h"
-#import "MJRefresh.h"
-#import "MJExtension.h"
-#import "KFZNet.h"
+
 
 @interface KFZBaseChatViewController ()
 
@@ -25,7 +23,10 @@
     self.senderDisplayName = self.chatModel.sender.nickname;
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除历史" style:UIBarButtonItemStylePlain target:self action:@selector(clenMessageContact)];
+    UIBarButtonItem *cleanContact = [[UIBarButtonItem alloc] initWithTitle:@"清除历史" style:UIBarButtonItemStylePlain target:self action:@selector(clenMessageContact)];
+    UIBarButtonItem *modifyName = [[UIBarButtonItem alloc] initWithTitle:@"修改备注" style:UIBarButtonItemStylePlain target:self action:@selector(modifyName)];
+    self.navigationItem.rightBarButtonItems = @[cleanContact, modifyName];
+    
     [self addRefresh];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,6 +55,25 @@
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         DLog(@"%@",error);
     }];
+}
+/// 修改备注
+- (void)modifyName {
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"friendId" : @(self.chatModel.buddy.contactId),
+                            @"remark" : @"快递"
+                            };
+    [KFZNet modifyFriendNameParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        DLog(@"===============修改成功");
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        DLog(@"===============修改失败,%@",error);
+    }];
+    
+    /*
+     token	签名	true	注：web用户传空值
+     friendId	好友id	true	``
+     remark	备注
+     */
 }
 
 - (void)showTyping {

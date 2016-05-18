@@ -13,7 +13,7 @@
 #import "KFZChatModel.h"
 #import "KFZSocketTool.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import "KFZFriendTableViewController.h"
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource, KFZSocketToolDelegate>
 
@@ -30,6 +30,12 @@
     return _dataSource;
 }
 
+- (void)addItem {
+    UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"friend" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
+    self.navigationItem.rightBarButtonItems = @[friend];
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUp];
@@ -44,7 +50,7 @@
     self.tv.rowHeight = 45;
     [self getList];
     self.socketTool = [KFZSocketTool socketTool];
-    
+    [self addItem];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -92,7 +98,7 @@
         unReadStr = @"99+";
     }
     cell.detailTextLabel.text = model.unreadNum ? unReadStr : @"";
-    
+
     return cell;
 }
 
@@ -149,6 +155,17 @@
      )
      */
 }
+
+
+
+#pragma -mark 导航栏 按钮 事件
+- (void)friend {
+    KFZFriendTableViewController *vc = [[KFZFriendTableViewController alloc] init];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 @end
 

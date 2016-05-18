@@ -10,6 +10,9 @@
 #import <SocketIOClientSwift/SocketIOClientSwift-Swift.h>
 #import "KFZChatModel.h"
 #import "KFZSocketTool.h"
+#import "MJRefresh.h"
+#import "MJExtension.h"
+#import "KFZNet.h"
 
 @interface KFZBaseChatViewController : JSQMessagesViewController<JSQMessagesCollectionViewDataSource, JSQMessagesCollectionViewDelegateFlowLayout, JSQMessagesComposerTextViewPasteDelegate, KFZSocketToolDelegate>
 
