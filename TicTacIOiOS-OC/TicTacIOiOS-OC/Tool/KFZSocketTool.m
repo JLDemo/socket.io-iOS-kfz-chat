@@ -154,7 +154,9 @@ static KFZSocketTool *socketTool = nil;
 //    /// "unreadMessage":"UNREAD_MESSAGE_79453",
 //    @property (copy, nonatomic) NSString *unreadMessage;
     [socketTool.clientSocket on:subChannels.unreadMessage callback:^(NSArray *array, SocketAckEmitter *ack) {
-        ;
+        if ([socketTool.delegate respondsToSelector:@selector(socketTool:unReadMessage:)]) {
+            [socketTool.delegate socketTool:socketTool.clientSocket unReadMessage:array];
+        }
     }];
 //    /// "instruct":"INSTRUCT_9292e9042ac8735b39953688f59d0596",
 //    @property (copy, nonatomic) NSString *instruct;

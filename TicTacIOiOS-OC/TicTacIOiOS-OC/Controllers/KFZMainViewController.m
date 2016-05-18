@@ -108,7 +108,34 @@
 
 #pragma -mark socket 代理事件
 - (void)socketTool:(SocketIOClient *)socket unReadMessage:(NSArray *)array {
-    
+    NSDictionary *resultDic = [array firstObject][@"result"];
+    NSUInteger unreadNum = [resultDic[@"unreadNum"] integerValue];
+    NSUInteger userId = [resultDic[@"userId"] integerValue];
+    int i = 0;
+    for (; i<self.dataSource.count; i++) {
+        KFZContact *contat = self.dataSource[i];
+        if ( contat.contactId == userId ) {
+            contat.unreadNum = unreadNum;
+            // refresh
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [self.tv reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            return;
+        }
+    }
+    /*
+     (
+     {
+         result =     {
+             unreadList = {
+                         201253 = 1;
+                     };
+             unreadNum = 1;
+             userId = 1034285;
+         };
+         status = 1;
+     }
+     )
+     */
 }
 
 @end
