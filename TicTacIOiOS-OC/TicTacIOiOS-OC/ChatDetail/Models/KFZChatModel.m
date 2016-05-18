@@ -64,7 +64,7 @@
     model.outGoingAvatarImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:outAvatarImage diameter:DIAMETER];
     
 //    @property (strong, nonatomic) JSQMessagesBubbleImage *inCommingBubbleImage;
-    JSQMessagesBubbleImageFactory *factory = [[JSQMessagesBubbleImageFactory alloc] init];
+    JSQMessagesBubbleImageFactory *factory = [[JSQMessagesBubbleImageFactory alloc] initWithBubbleImage:[UIImage imageNamed:@"bubble-classic-blue"] capInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     model.inCommingBubbleImage = [factory incomingMessagesBubbleImageWithColor:[UIColor greenColor]];
 //    @property (strong, nonatomic) JSQMessagesBubbleImage *outGoingBubbleImage;
     model.outGoingBubbleImage = [factory outgoingMessagesBubbleImageWithColor:[UIColor grayColor]];
