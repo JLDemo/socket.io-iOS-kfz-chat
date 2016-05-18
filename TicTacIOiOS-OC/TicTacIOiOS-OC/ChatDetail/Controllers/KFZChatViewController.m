@@ -33,6 +33,7 @@
     KFZMessage *message = [KFZMessage mj_objectWithKeyValues:resultDic];
     [self.chatModel.messages addObject:message];
     [self finishReceivingMessageAnimated:YES];
+    [self scrollToBottomAnimated:YES];
 }
 
 // 收到发送消息的反馈(不一定成功)
@@ -43,6 +44,7 @@
     [self.chatModel.messages addObject:message];
     
     [self finishSendingMessageAnimated:YES];
+    [self scrollToBottomAnimated:YES];
     /*
      (
          {

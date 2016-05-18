@@ -25,7 +25,7 @@
     self.senderDisplayName = self.chatModel.sender.nickname;
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"receive" style:UIBarButtonItemStylePlain target:self action:@selector(showTyping)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除历史" style:UIBarButtonItemStylePlain target:self action:@selector(clenMessageContact)];
     [self addRefresh];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -42,6 +42,19 @@
     
 }
 
+- (void)clenMessageContact {
+//    params:token=testToken_79453&contactId=1034285
+    NSDictionary *params = @{
+                             @"token" : TOKEN,
+                             @"contactId" : @(self.chatModel.buddy.contactId)
+                             };
+    [KFZNet cleanMessageContactParam:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        self.chatModel.messages = nil;
+        [self.collectionView reloadData];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        DLog(@"%@",error);
+    }];
+}
 
 - (void)showTyping {
     self.showTypingIndicator = !self.showTypingIndicator;

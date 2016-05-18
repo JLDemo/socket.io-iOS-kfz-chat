@@ -29,6 +29,12 @@
     NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CONTACTMESSAGE];
     [self POST:urlString params:param success:success faile:faile];
 }
+
+/// 清除消息记录
++ (void)cleanMessageContactParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CLEARMESSAGE];
+    [self POST:urlString params:param success:success faile:faile];
+}
     
 //取得消息 imServer
 + (void)getIMServerTestSuccess:(MSGBlock)sb socketTool:(KFZSocketTool *)socketTool {

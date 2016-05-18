@@ -17,14 +17,18 @@
 {
     self = [super init];
     if (self) {
-        self.messages = [NSMutableArray array];
         self.sender = [KFZGetServerInfoTool serverInfo];
 //        [self fakeMessage];
     }
     return self;
 }
 
-
+- (NSMutableArray *)messages {
+    if (!_messages) {
+        _messages = [NSMutableArray array];
+    }
+    return _messages;
+}
 
 - (void)fakeMessage {
     KFZMessage *msg1 = [KFZMessage messageWithSenderId:@"101" displayName:@"aa" text:@"heell"];  // 1034285

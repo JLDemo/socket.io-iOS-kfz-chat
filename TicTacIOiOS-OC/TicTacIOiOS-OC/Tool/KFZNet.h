@@ -20,6 +20,8 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 /// 获取消息记录
 + (void)getContactMessageParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
 
+/// 清除消息记录
++ (void)cleanMessageContactParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
 
 /// 取得消息 imServer
 + (void)getIMServerTestSuccess:(MSGBlock)sb socketTool:(KFZSocketTool *)socketTool;
