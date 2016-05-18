@@ -4,7 +4,7 @@
 //
 //  Created by kfz on 16/5/16.
 //  Copyright © 2016年 kongfz. All rights reserved.
-//
+//  contactId,
 
 #import "KFZBaseChatViewController.h"
 
@@ -24,8 +24,8 @@
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     
     UIBarButtonItem *cleanContact = [[UIBarButtonItem alloc] initWithTitle:@"清除历史" style:UIBarButtonItemStylePlain target:self action:@selector(clenMessageContact)];
-    UIBarButtonItem *modifyName = [[UIBarButtonItem alloc] initWithTitle:@"修改备注" style:UIBarButtonItemStylePlain target:self action:@selector(modifyName)];
-    self.navigationItem.rightBarButtonItems = @[cleanContact, modifyName];
+//    UIBarButtonItem *modifyName = [[UIBarButtonItem alloc] initWithTitle:@"修改备注" style:UIBarButtonItemStylePlain target:self action:@selector(modifyName)];
+    self.navigationItem.rightBarButtonItems = @[cleanContact];
     
     [self addRefresh];
 }
@@ -33,6 +33,7 @@
     [super viewWillAppear:animated];
     self.page = 1;
     [self getContactMessage];
+    [KFZSocketTool socketTool].delegate = self;
 }
 
 - (void)addRefresh {
@@ -56,25 +57,7 @@
         DLog(@"%@",error);
     }];
 }
-/// 修改备注
-- (void)modifyName {
-    NSDictionary *param = @{
-                            @"token" : TOKEN,
-                            @"friendId" : @(self.chatModel.buddy.contactId),
-                            @"remark" : @"快递"
-                            };
-    [KFZNet modifyFriendNameParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        DLog(@"===============修改成功");
-    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        DLog(@"===============修改失败,%@",error);
-    }];
-    
-    /*
-     token	签名	true	注：web用户传空值
-     friendId	好友id	true	``
-     remark	备注
-     */
-}
+
 
 - (void)showTyping {
     self.showTypingIndicator = !self.showTypingIndicator;
@@ -133,6 +116,7 @@
     KFZMessage *message = self.chatModel.messages[indexPath.item];
     NSString *timeStr = message.sendTime ? message.sendTime : @"没有时间";
     NSDictionary *atts = @{
+                           NSFontAttributeName : [UIFont systemFontOfSize:13],
                            NSForegroundColorAttributeName : [UIColor blackColor]
                            };
     

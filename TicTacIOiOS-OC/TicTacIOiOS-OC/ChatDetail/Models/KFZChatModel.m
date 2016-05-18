@@ -54,20 +54,18 @@
     model.buddy = buddy;
     model.sender = [KFZSocketTool getLoginInfo];
     //
-//    @property (strong, nonatomic) JSQMessagesAvatarImage *inCommingAvatarImage;
-    NSString *str = buddy.photo;
+    // 头像
     NSData *inAvatarData = [NSData dataWithContentsOfURL:[NSURL URLWithString:buddy.photo]];
     UIImage *inAvatarImage = [UIImage imageWithData:inAvatarData];
     inAvatarImage = inAvatarImage ? inAvatarImage : [UIImage imageNamed:@"placehodler"];
     model.inCommingAvatarImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:inAvatarImage diameter:DIAMETER];
     
-//    @property (strong, nonatomic) JSQMessagesAvatarImage *outGoingAvatarImage;
     NSData *outAvatarData = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.sender.photo]];
     UIImage *outAvatarImage = [UIImage imageWithData:outAvatarData];
     outAvatarImage = outAvatarImage ? outAvatarImage : [UIImage imageNamed:@"placehodler"];
     model.outGoingAvatarImage = [JSQMessagesAvatarImageFactory avatarImageWithImage:outAvatarImage diameter:DIAMETER];
     
-//    @property (strong, nonatomic) JSQMessagesBubbleImage *inCommingBubbleImage;
+    // 消息背景
     JSQMessagesBubbleImageFactory *factory = [[JSQMessagesBubbleImageFactory alloc] initWithBubbleImage:[UIImage imageNamed:@"bubble-classic-blue"] capInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     model.inCommingBubbleImage = [factory incomingMessagesBubbleImageWithColor:[UIColor greenColor]];
 //    @property (strong, nonatomic) JSQMessagesBubbleImage *outGoingBubbleImage;

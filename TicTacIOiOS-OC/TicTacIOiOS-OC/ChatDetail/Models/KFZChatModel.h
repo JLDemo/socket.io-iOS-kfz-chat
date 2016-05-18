@@ -25,6 +25,8 @@
 @property (strong, nonatomic) KFZContact *buddy;
 @property (strong, nonatomic) KFZLoginInfo *sender;
 
+
+// buddy需要提供：contactId，contactNickname
 + (instancetype)chatModelWithBuddy:(KFZContact *)buddy;
 
 

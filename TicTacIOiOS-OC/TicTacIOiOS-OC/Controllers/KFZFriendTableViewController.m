@@ -4,13 +4,14 @@
 //
 //  Created by kfz on 16/5/18.
 //  Copyright © 2016年 kongfz. All rights reserved.
-//
+//  本类不需要处理未读消息，不需要作为socket的代理
 
 #import "KFZFriendTableViewController.h"
 #import "KFZSocketTool.h"
 #import "MJExtension.h"
 #import "KFZFriend.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "KFZChatViewController.h"
 
 @interface KFZFriendTableViewController ()
 @property (assign, nonatomic) NSUInteger page;
@@ -39,6 +40,7 @@
     
     
     self.socketTool = [KFZSocketTool socketTool];
+    
     [self getFriendList];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -82,18 +84,49 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self modifyFriendNameIndexPath:indexPath];
+   
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"好友操作" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *actionSendMsg = [UIAlertAction actionWithTitle:@"对话" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self tokeToFriend:indexPath];
+    }];
+    UIAlertAction *actionModify = [UIAlertAction actionWithTitle:@"修改备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self modifyFriendNameIndexPath:indexPath];
+    }];
+    UIAlertAction *actionDel = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self deleteFriend:indexPath];
+    }];
+    
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:actionSendMsg];
+    [alert addAction:actionModify];
+    [alert addAction:actionDel];
+    [alert addAction:actionCancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (UITableViewCellEditingStyleDelete == editingStyle) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self deleteFriend:indexPath];
     }
 }
+
+- (void)tokeToFriend:(NSIndexPath *)indexPath {
+    KFZFriend *friend = self.dataSource[indexPath.row];
+    KFZContact *buddy = [KFZContact contactWithId:friend.friendId contactNickName:friend.friendNickname];
+    
+    KFZChatModel *chatModel = [KFZChatModel chatModelWithBuddy:buddy];
+    KFZChatViewController *vc = [[KFZChatViewController alloc] init];
+    vc.chatModel = chatModel;
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 #pragma -mark 好友相关
 
@@ -180,6 +213,7 @@
      remark	备注
      */
 }
+
 @end
 
 

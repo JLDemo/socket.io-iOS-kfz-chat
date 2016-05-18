@@ -107,7 +107,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     KFZChatViewController *vc = [[KFZChatViewController alloc] init];
-    self.socketTool.delegate = vc;
     
     KFZContact *contact = self.dataSource[indexPath.item];
     contact.unreadNum = 0;

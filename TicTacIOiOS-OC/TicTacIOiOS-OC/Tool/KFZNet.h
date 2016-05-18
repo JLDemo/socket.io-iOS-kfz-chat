@@ -17,31 +17,31 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 #pragma -mark 好友相关
 /// 删除好友
-+ (void)deleteFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)deleteFriendParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 取得好友列表
-+ (void)getFriendListParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)getFriendListParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 添加好友
-+ (void)addFriendParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)addFriendParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 添加好友备注
-+ (void)modifyFriendNameParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)modifyFriendNameParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 
 #pragma -mark 消息相关
 /// 消息联系人接口
-+ (void)getContactList:(NSString *)url param:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)getContactList:(NSString * _Nullable)url param:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 获取消息记录
-+ (void)getContactMessageParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)getContactMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 /// 清除消息记录
-+ (void)cleanMessageContactParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile;
++ (void)cleanMessageContactParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 /// 取得消息 imServer
-+ (void)getIMServerTestSuccess:(MSGBlock)sb socketTool:(KFZSocketTool *)socketTool;
++ (void)getIMServerTestSuccess:(MSGBlock _Nullable)sb socketTool:(KFZSocketTool *_Nullable)socketTool;
 
 ///  get请求
-+ (void)GET:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile;
++ (void)GET:(NSString * _Nullable)urlString params:(NSDictionary * _Nullable)params success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// post请求
-+ (void)POST:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile;
++ (void)POST:(NSString * _Nullable)urlString params:(NSDictionary * _Nullable)params success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 
 

@@ -31,6 +31,9 @@
 //userType = "";
 @property (copy, nonatomic) NSString *userType;
 
+
++ (instancetype)contactWithId:(NSUInteger)contactId contactNickName:(NSString *)contactNickname;
+
 @end
 
 

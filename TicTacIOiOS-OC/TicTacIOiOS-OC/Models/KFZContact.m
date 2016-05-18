@@ -10,4 +10,10 @@
 
 @implementation KFZContact
 
++ (instancetype)contactWithId:(NSUInteger)contactId contactNickName:(NSString *)contactNickname {
+    KFZContact *model = [[self alloc] init];
+    model.contactNickname = contactNickname;
+    model.contactId = contactId;
+    return model;
+}
 @end
