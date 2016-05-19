@@ -11,6 +11,20 @@
 
 @implementation KFZNet
 
+
+/// 取得消息设置
++ (void)getMessageSettingsSuccess:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,GET_MSG_SETTING];
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"device" : @"IOS",
+                            @"appName" : @"IOS_KFZ_COM"
+                            };
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:urlString parameters:param progress:nil success:success failure:faile];
+}
+
+
 /// 取得好友列表
 + (void)getFriendListParam:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
     NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,FRIEND_LIST];
@@ -32,7 +46,11 @@
     [self POST:urlString params:param success:success faile:faile];
 }
 
-
+// 删除联系人
++ (void)deleteContactParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,DELETE_CONTACT];
+    [self POST:urlString params:param success:success faile:faile];
+}
 
 /// 消息联系人接口
 + (void)getContactList:(NSString *)url param:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
@@ -42,6 +60,20 @@
         faile(task,error);
     }];
     
+}
+
+/// 获取用户未读消息数量
++ (void)getUnreadMessageCountParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,UNREAD_MESSAGE];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager GET:urlString parameters:param progress:nil success:success failure:faile];
+    
+    
+    
+//    [self GET:urlString params:param success:success faile:faile];
+//    [self POST:urlString params:nil success:success faile:faile];
 }
 
 /// 获取消息记录

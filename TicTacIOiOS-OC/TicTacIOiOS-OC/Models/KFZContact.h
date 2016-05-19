@@ -24,12 +24,15 @@
 @property (copy, nonatomic) NSString *lastMsgcreater;
 //onlinestate = 0;
 @property (assign, nonatomic) NSUInteger onlinestate;
+@property (assign, nonatomic) NSUInteger isOnline;
+
 //photo = "http://user.kfz.com/data/member_pic/1253/201253.jpg";
 @property (copy, nonatomic) NSString *photo;
 //unreadNum = 0;
 @property (assign, nonatomic) NSUInteger unreadNum;
 //userType = "";
 @property (copy, nonatomic) NSString *userType;
+@property (assign, nonatomic) NSUInteger userId;
 
 
 + (instancetype)contactWithId:(NSUInteger)contactId contactNickName:(NSString *)contactNickname;

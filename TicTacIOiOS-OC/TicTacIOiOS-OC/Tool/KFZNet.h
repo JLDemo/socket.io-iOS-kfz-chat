@@ -15,6 +15,10 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 @interface KFZNet : NSObject
 
+#pragma -mark 消息设置
+/// 取得消息设置
++ (void)getMessageSettingsSuccess:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
+
 #pragma -mark 好友相关
 /// 删除好友
 + (void)deleteFriendParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
@@ -27,6 +31,11 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 
 #pragma -mark 消息相关
+/// 获取用户未读消息数量
++ (void)getUnreadMessageCountParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
+
+/// 删除联系人
++ (void)deleteContactParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 消息联系人接口
 + (void)getContactList:(NSString * _Nullable)url param:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 获取消息记录

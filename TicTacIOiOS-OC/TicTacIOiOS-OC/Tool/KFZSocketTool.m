@@ -93,7 +93,6 @@ static KFZSocketTool *socketTool = nil;
         NSLog(@"==========================disconnect");
     }];
     [socketTool.clientSocket connect];
-    
 }
 
 
@@ -163,10 +162,12 @@ static KFZSocketTool *socketTool = nil;
     [socketTool.clientSocket on:subChannels.instruct callback:^(NSArray *array, SocketAckEmitter *ack) {
         ;
     }];
-//    /// 联系人变动通知
+//    /// 联系人变动通知,在联系人列表中添加联系人
 //    @property (copy, nonatomic) NSString *contact;
     [socketTool.clientSocket on:subChannels.contact callback:^(NSArray *array, SocketAckEmitter *ack) {
-        ;
+        if ([socketTool.delegate respondsToSelector:@selector(socketTool:contactChanged:)]) {
+            [socketTool.delegate socketTool:socketTool.clientSocket contactChanged:array];
+        }
     }];
 //    /// 发送新消息时，反馈消息接收方是否在线
 //    @property (copy, nonatomic) NSString *onlineNotice;

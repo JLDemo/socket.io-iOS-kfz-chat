@@ -17,7 +17,8 @@
 
 
 #define SERVER @"http://message.kfz.com"
-#define TOKEN @"testToken_1034285"
+//#define TOKEN @"testToken_1034285" // 东北狠人1
+#define TOKEN @"testToken_80" // 网站客服（锁眉）
 #define DEVICE @"IOS"
 #define APPNAME @"IOS_KFZ_COM"
 #define VERSION @"version=1.4.5"
@@ -29,12 +30,22 @@
 
 
 // 取得联系人往来
+
+// 删除联系人
+#define DELETE_CONTACT @"/Interface/Contact/deleteContact"
+
 #define CONTACTMESSAGE @"/Interface/Message/getContactMessage"
 #define PAGESIZE  10
 //
 #define CONTACTLIST @"/Interface/Contact/getList"
 //
 #define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
+
+/// 获取用户未读消息数量 : 只有数量，没有消息发送者
+#define UNREAD_MESSAGE @"/Interface/User/getUnreadNum"
+
+
+
 // 添加好友备注
 #define MODIFY_FRIEND_NAME @"/Interface/Contact/modifyFriendRemark"
 // 添加好友
@@ -45,7 +56,9 @@
 #define DELETE_FRIEND @"/Interface/Contact/delFriend"
 
 
-
+/// 消息设置
+/// 取得消息设置
+#define GET_MSG_SETTING @"/Interface/User/getUserSettings"
 
 
 

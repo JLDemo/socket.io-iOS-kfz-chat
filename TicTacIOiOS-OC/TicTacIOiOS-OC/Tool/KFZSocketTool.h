@@ -17,13 +17,18 @@ typedef void(^MSGBlock)(NSString *serverAddress);
 @protocol KFZSocketToolDelegate <NSObject>
 
 @optional
+//  对话界面相关
 - (void)socketTool:(SocketIOClient *)socket buddyIsTyping:(NSArray *)array;
 - (void)socketTool:(SocketIOClient *)socket getBuddyMessage:(NSArray *)array;
 - (void)socketTool:(SocketIOClient *)socket sendMessageSuccess:(NSArray *)array;
-/// 消息状态通知
+/* 消息状态通知 */
 - (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array;
-/// 未读消息
+
+// 联系人列表相关
+/* 未读消息 */
 - (void)socketTool:(SocketIOClient *)socket unReadMessage:(NSArray *)array;
+/* 联系人变动通知,在联系人列表中添加联系人 */
+- (void)socketTool:(SocketIOClient *)socket contactChanged:(NSArray *)array;
 
 @end
 

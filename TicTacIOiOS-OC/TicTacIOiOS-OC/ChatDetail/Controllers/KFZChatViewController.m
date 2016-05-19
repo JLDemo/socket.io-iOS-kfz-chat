@@ -46,7 +46,6 @@
     
     KFZMessage *message = [KFZMessage mj_objectWithKeyValues:resultDic];
     [self.chatModel.messages addObject:message];
-    
     [self finishSendingMessageAnimated:YES];
     [self scrollToBottomAnimated:YES];
     /*
@@ -130,6 +129,7 @@
     message.receiverNickname = self.chatModel.buddy.contactNickname;
     // send
     [KFZSocketTool sendMessage:message];
+    self.inputToolbar.contentView.textView.text = nil;
 }
 - (void)didPressAccessoryButton:(UIButton *)sender {
     NSLog(@"didPressAccessoryButton 没有实现");

@@ -17,7 +17,7 @@
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource, KFZSocketToolDelegate>
 
-@property (strong, nonatomic) NSMutableArray *dataSource;
+@property (strong, nonatomic) NSMutableArray<KFZContact *> *dataSource;
 @property (strong, nonatomic) KFZSocketTool *socketTool;
 
 @end
@@ -31,7 +31,7 @@
 }
 
 - (void)addItem {
-    UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"friend list" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
+    UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"好友列表" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
     self.navigationItem.rightBarButtonItems = @[friend];
 }
 
@@ -94,13 +94,25 @@
     cell.imageView.clipsToBounds = YES;
 //    cell.imageView.image = [UIImage imageNamed:@"icon"];
     cell.textLabel.text = model.contactNickname;
-    NSString *unReadStr = [NSString localizedStringWithFormat:@"%d",model.unreadNum];
+    NSString *unReadStr = [NSString localizedStringWithFormat:@"%lu",(unsigned long)model.unreadNum];
     if (model.unreadNum>99) {
         unReadStr = @"99+";
     }
     cell.detailTextLabel.text = model.unreadNum ? unReadStr : @"";
 
     return cell;
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    KFZContact *model = self.dataSource [indexPath.row];
+    if ( model.contactId != self.socketTool.loginInfo.userId ) {
+        return YES;
+    }
+    return NO;
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ( editingStyle == UITableViewCellEditingStyleDelete ) {
+        [self deleteContact:indexPath];
+    }
 }
 
 #pragma -mark 选择行的点击事件
@@ -156,6 +168,35 @@
      */
 }
 
+/**
+ * 联系人变动
+ */
+- (void)socketTool:(SocketIOClient *)socket contactChanged:(NSArray *)array {
+    NSDictionary *resultDic = [array firstObject][@"result"];
+    KFZContact *contact = [KFZContact mj_objectWithKeyValues:resultDic];
+    [self.dataSource addObject:contact];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0];
+    [self.tv insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    /*
+     (
+     {
+         result =     {
+             contactId = 201253;
+             contactNickname = "\U94f6\U8c61";
+             isOnline = 0;
+             lastMessageId = 1255;
+             lastMsgDate = "2016-05-19 14:35:52";
+             lastMsgDigest = "\U6211\U662f\U9501\U7709";
+             lastMsgcreater = oneself;
+             photo = "http://user.kfz.com/data/member_pic/1253/201253.jpg";
+             userId = 80;
+         };
+         status = 1;
+     }
+     )
+     */
+}
+
 
 
 #pragma -mark 导航栏 按钮 事件
@@ -165,7 +206,28 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
+/**
+ *  删除联系人
+ *  Param indexPath
+ */
+- (void)deleteContact:(NSIndexPath *)indexPath {
+    // 删除联系人
+    KFZContact *model = self.dataSource [indexPath.row];
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"contactId" : @(model.contactId)
+                            };
+    [KFZNet deleteContactParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self.dataSource removeObjectAtIndex:indexPath.row];
+        [self.tv deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        DLog(@"==============删除联系人失败%@",error);
+    }];
+    /*
+     token	签名	true	注：web用户传空值
+     contactId	联系人id
+     */
+}
 
 @end
 
