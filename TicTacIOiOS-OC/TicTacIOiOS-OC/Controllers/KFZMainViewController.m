@@ -49,12 +49,13 @@
     self.tv.delegate = self;
     self.tv.dataSource = self;
     self.tv.rowHeight = 45;
-    [self getList];
+    
     self.socketTool = [KFZSocketTool socketTool];
     [self addItem];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self getList];
     self.socketTool.delegate = self;
 }
 
@@ -65,11 +66,10 @@
                              @"token" : TOKEN
                              };
     [KFZNet getContactList:urlString param:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+        
         NSArray *resultArray = [responseObject objectForKey:@"result"];
-        for (NSDictionary *d in resultArray) {
-            KFZContact *model = [KFZContact mj_objectWithKeyValues:d];
-            [self.dataSource addObject:model];
-        }
+        self.dataSource = [KFZContact mj_objectArrayWithKeyValuesArray:resultArray];
+        
         [self.tv reloadData];
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
