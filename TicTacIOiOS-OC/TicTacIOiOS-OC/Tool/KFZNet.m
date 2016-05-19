@@ -53,14 +53,25 @@
 }
 
 /// 消息联系人接口
-+ (void)getContactList:(NSString *)url param:(NSDictionary *)param success:(Success_B)success faile:(Faile_B)faile {
-    [self POST:url params:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        success(task,responseObject);
-    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        faile(task,error);
-    }];
-    
++ (void)getContactListSuccess:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CONTACTLIST];
+    NSDictionary *params = @{
+                             @"token" : TOKEN
+                             };
+    [self POST:urlString params:params success:success faile:faile];
 }
+
+/**
+ * 所有未读消息
+ */
++ (void)getAllUnreadMessageCountParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,UNREAD_MESSAGE];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager GET:urlString parameters:param progress:nil success:success failure:faile];
+}
+
 
 /// 获取用户未读消息数量
 + (void)getUnreadMessageCountParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
@@ -69,11 +80,6 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager GET:urlString parameters:param progress:nil success:success failure:faile];
-    
-    
-    
-//    [self GET:urlString params:param success:success faile:faile];
-//    [self POST:urlString params:nil success:success faile:faile];
 }
 
 /// 获取消息记录
@@ -108,6 +114,8 @@
         NSLog(@"%@",error);
     }];
 }
+
+
 
 + (void)GET:(NSString *)urlString params:(NSDictionary *)params success:(Success_B)success faile:(Faile_B)faile {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

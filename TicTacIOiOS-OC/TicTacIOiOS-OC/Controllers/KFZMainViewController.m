@@ -61,12 +61,7 @@
 
 /// 消息联系人接口
 - (void)getList {
-    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CONTACTLIST];
-    NSDictionary *params = @{
-                             @"token" : TOKEN
-                             };
-    [KFZNet getContactList:urlString param:params success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
-        
+    [KFZNet getContactListSuccess:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSArray *resultArray = [responseObject objectForKey:@"result"];
         self.dataSource = [KFZContact mj_objectArrayWithKeyValuesArray:resultArray];
         
@@ -74,7 +69,6 @@
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];
-   
 }
 
 #pragma -mark tableView 代理方法

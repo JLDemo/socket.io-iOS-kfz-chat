@@ -37,7 +37,7 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 /// 删除联系人
 + (void)deleteContactParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 消息联系人接口
-+ (void)getContactList:(NSString * _Nullable)url param:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
++ (void)getContactListSuccess:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 获取消息记录
 + (void)getContactMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 

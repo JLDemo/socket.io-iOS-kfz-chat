@@ -41,9 +41,13 @@
 //
 #define CLEARMESSAGE @"/Interface/Message/clearContactMessage"
 
+/// 消息设置
 /// 获取用户未读消息数量 : 只有数量，没有消息发送者
 #define UNREAD_MESSAGE @"/Interface/User/getUnreadNum"
-
+/// 取得消息设置
+#define GET_MSG_SETTING @"/Interface/User/getUserSettings"
+// 所有消息
+#define ALL_MESAGES @"/Interface/Message/all"
 
 
 // 添加好友备注
@@ -56,9 +60,6 @@
 #define DELETE_FRIEND @"/Interface/Contact/delFriend"
 
 
-/// 消息设置
-/// 取得消息设置
-#define GET_MSG_SETTING @"/Interface/User/getUserSettings"
 
 
 
