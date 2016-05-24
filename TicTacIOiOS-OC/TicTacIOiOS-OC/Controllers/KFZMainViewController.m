@@ -59,6 +59,29 @@
     self.socketTool.delegate = self;
 }
 
+/**
+ * 获取分类消息
+ */
+- (void)getCategoryMessages {
+    NSDictionary *params = @{
+                             @"token" : TOKEN,
+                             @"category" : @"CHAT",
+                             @"page" : @(1),
+                             @"pageSize" : @(5)
+                             };
+    [KFZNet getCategoryMessagesParam:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        ;
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        ;
+    }];
+    /*
+     token	签名	true	注：web用户传空值
+     category	消息大类	true	[CHAT沟通类消息,CUSTOMER_SERVICE客服类消息,NOTICE通知类消息,DEAL交易类消息] ,多个分类已逗号分隔
+     page	页码	true	分页页码
+     pageSize	分页数	true
+     */
+}
+
 /// 消息联系人接口
 - (void)getList {
     [KFZNet getContactListSuccess:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

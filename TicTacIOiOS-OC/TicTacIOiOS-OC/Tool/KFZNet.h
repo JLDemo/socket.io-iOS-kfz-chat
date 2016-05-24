@@ -40,12 +40,17 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 + (void)getContactListSuccess:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 /// 获取消息记录
 + (void)getContactMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
+/**
+ * 获取分类消息
+ */
++ (void)getCategoryMessagesParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 /// 清除消息记录
 + (void)cleanMessageContactParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;
 
 /// 取得消息 imServer
 + (void)getIMServerTestSuccess:(MSGBlock _Nullable)sb socketTool:(KFZSocketTool *_Nullable)socketTool;
+
 
 ///  get请求
 + (void)GET:(NSString * _Nullable)urlString params:(NSDictionary * _Nullable)params success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;

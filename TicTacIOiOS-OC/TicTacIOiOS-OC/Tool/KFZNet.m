@@ -62,6 +62,22 @@
 }
 
 /**
+ * 获取分类消息
+ */
++ (void)getCategoryMessagesParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,CATEGORY_MESSAGE];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:urlString parameters:param progress:nil success:success failure:faile];
+    /*
+     token	签名	true	注：web用户传空值
+     category	消息大类	true	[CHAT沟通类消息,CUSTOMER_SERVICE客服类消息,NOTICE通知类消息,DEAL交易类消息] ,多个分类已逗号分隔
+     page	页码	true	分页页码
+     pageSize	分页数	tru
+     */
+}
+
+/**
  * 所有未读消息
  */
 + (void)getAllUnreadMessageCountParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {

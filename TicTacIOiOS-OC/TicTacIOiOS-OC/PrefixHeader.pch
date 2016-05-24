@@ -48,6 +48,10 @@
 #define GET_MSG_SETTING @"/Interface/User/getUserSettings"
 // 所有消息
 #define ALL_MESAGES @"/Interface/Message/all"
+// 取得分类消息
+#define CATEGORY_MESSAGE  @"/Interface/Message/getCategoryMessage"
+
+
 
 
 // 添加好友备注

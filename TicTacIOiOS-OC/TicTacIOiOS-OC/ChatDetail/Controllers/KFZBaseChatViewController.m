@@ -19,13 +19,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.senderId = [NSString stringWithFormat:@"%d",self.chatModel.sender.userId];
+    self.senderId = [NSString stringWithFormat:@"%lu",(unsigned long)self.chatModel.sender.userId];
     self.senderDisplayName = self.chatModel.sender.nickname;
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     
     UIBarButtonItem *cleanContact = [[UIBarButtonItem alloc] initWithTitle:@"清除历史" style:UIBarButtonItemStylePlain target:self action:@selector(clenMessageContact)];
 //    UIBarButtonItem *modifyName = [[UIBarButtonItem alloc] initWithTitle:@"修改备注" style:UIBarButtonItemStylePlain target:self action:@selector(modifyName)];
     self.navigationItem.rightBarButtonItems = @[cleanContact];
+    
+    [JSQMessagesCollectionViewCell registerMenuAction:@selector(delete:)];
     
     [self addRefresh];
 }
@@ -69,6 +71,18 @@
 
 
 #pragma -mark JSQMessagesCollectionViewDataSource
+- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    return YES;
+}
+- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender {
+    if (action == @selector(copy:)) {
+        [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
+        return;
+    }
+    [self.chatModel.messages removeObjectAtIndex:indexPath.item];
+    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.chatModel.messages.count;
 }
@@ -159,7 +173,7 @@
 
 #pragma -mark 输入框的代理方法
 - (BOOL)composerTextView:(JSQMessagesComposerTextView *)textView shouldPasteWithSender:(id)sender {
-    return NO;
+    return YES;
 }
 
 #pragma -mark 输入工具条点击事件
@@ -266,6 +280,7 @@
 
      */
 }
+
 
 @end
 
