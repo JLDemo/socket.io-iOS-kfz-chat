@@ -10,6 +10,7 @@
 #import "MJRefresh.h"
 #import "MJExtension.h"
 #import "KFZSocketTool.h"
+#import "KFZNotificationTool.h"
 
 
 @interface KFZChatViewController ()

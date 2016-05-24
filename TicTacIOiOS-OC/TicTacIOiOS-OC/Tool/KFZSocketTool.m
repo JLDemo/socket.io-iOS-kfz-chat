@@ -7,8 +7,9 @@
 //
 
 #import "KFZSocketTool.h"
-
+#import "KFZNotificationTool.h"
 #import "KFZNet.h"
+#import "MJExtension.h"
 #import "KFZSubChannels.h"
 
 
@@ -120,6 +121,13 @@ static KFZSocketTool *socketTool = nil;
 //    /// 接收发送给我的消息通知
 //    @property (copy, nonatomic) NSString *privateMsg;
     [socketTool.clientSocket on:subChannels.privateMsg callback:^(NSArray *array, SocketAckEmitter *ack) {
+        // 在后台创建通知
+        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+            NSDictionary *resultDic = [[array firstObject] objectForKey:@"result"];
+            KFZMessage *message = [KFZMessage mj_objectWithKeyValues:resultDic];
+            [KFZNotificationTool registerLocalNotification:message];
+        }
+        
         if ([socketTool.delegate respondsToSelector:@selector(socketTool:getBuddyMessage:)]) {
             [socketTool.delegate socketTool:socketTool.clientSocket getBuddyMessage:array];
         }

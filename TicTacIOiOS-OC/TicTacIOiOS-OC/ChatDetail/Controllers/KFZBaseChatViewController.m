@@ -8,7 +8,6 @@
 
 #import "KFZBaseChatViewController.h"
 
-
 @interface KFZBaseChatViewController ()
 
 @end

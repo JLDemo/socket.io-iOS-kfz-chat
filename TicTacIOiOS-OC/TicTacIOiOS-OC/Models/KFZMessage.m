@@ -28,7 +28,7 @@
  *  @warning You must not return `nil` from this method. This value must be unique.
  */
 - (NSString *)senderId {
-    return [NSString stringWithFormat:@"%d",self.sender];
+    return [NSString stringWithFormat:@"%lu",(unsigned long)self.sender];
 }
 - (NSString *)senderDisplayName {
     return self.senderNickname;
