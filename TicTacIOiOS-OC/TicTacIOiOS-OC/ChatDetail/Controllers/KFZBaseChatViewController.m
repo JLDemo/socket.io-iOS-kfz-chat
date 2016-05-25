@@ -27,9 +27,11 @@
     self.navigationItem.rightBarButtonItems = @[cleanContact];
     
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(delete:)];
+    [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"删除" action:@selector(delete:)] ];
     
     [self addRefresh];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.page = 1;
@@ -71,15 +73,18 @@
 
 #pragma -mark JSQMessagesCollectionViewDataSource
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-    return YES;
+    if ( action == @selector(delete:)) {
+        return YES;
+    }
+    return [super collectionView:collectionView canPerformAction:action forItemAtIndexPath:indexPath withSender:sender];
 }
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender {
-    if (action == @selector(copy:)) {
-        [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
+    if (action == @selector(delete:)) {
+        [self.chatModel.messages removeObjectAtIndex:indexPath.item];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
         return;
     }
-    [self.chatModel.messages removeObjectAtIndex:indexPath.item];
-    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+    [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

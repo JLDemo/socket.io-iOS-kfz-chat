@@ -51,7 +51,8 @@
 #define ALL_MESAGES @"/Interface/Message/all"
 // 取得分类消息
 #define CATEGORY_MESSAGE  @"/Interface/Message/getCategoryMessage"
-
+//删除消息
+#define DELETE_MESSAGE @"/Interface/Message/delMessage"
 
 
 

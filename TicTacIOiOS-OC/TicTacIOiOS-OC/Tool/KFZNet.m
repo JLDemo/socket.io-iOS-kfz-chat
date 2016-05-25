@@ -61,6 +61,21 @@
     [self POST:urlString params:params success:success faile:faile];
 }
 
+
+/**
+ * 删除消息
+ */
++ (void)deleteMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,DELETE_MESSAGE];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:urlString parameters:param progress:nil success:success failure:faile];
+    /*
+     token	签名	true	注：web用户传空值
+     messageIds	消息id列表     
+    */
+}
+
 /**
  * 获取分类消息
  */
