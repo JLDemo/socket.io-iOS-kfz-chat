@@ -64,16 +64,22 @@
 
 /**
  * 删除消息
+ * param 消息id
  */
-+ (void)deleteMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
++ (void)deleteMessageIds:(NSString * _Nullable)messageIds success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
     NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,DELETE_MESSAGE];
+    
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"messageIds" : messageIds
+                            };
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:urlString parameters:param progress:nil success:success failure:faile];
     /*
      token	签名	true	注：web用户传空值
-     messageIds	消息id列表     
-    */
+     messageIds	消息id列表
+     */
 }
 
 /**

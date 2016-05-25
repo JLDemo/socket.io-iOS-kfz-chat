@@ -43,8 +43,9 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 
 /**
  * 删除消息
+ * param 消息id
  */
-+ (void)deleteMessageParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
++ (void)deleteMessageIds:(NSString * _Nullable)messageIds success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
 
 /**
  * 获取分类消息

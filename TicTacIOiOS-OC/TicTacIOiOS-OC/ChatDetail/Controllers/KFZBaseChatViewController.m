@@ -80,8 +80,7 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender {
     if (action == @selector(delete:)) {
-        [self.chatModel.messages removeObjectAtIndex:indexPath.item];
-        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        [self deleteMessageAtIndexPath:indexPath];
         return;
     }
     [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
@@ -284,7 +283,18 @@
 
      */
 }
-
+- (void)deleteMessageAtIndexPath:(NSIndexPath *)indexPath{
+    KFZMessage *message = self.chatModel.messages[indexPath.item];
+    [self.chatModel.messages removeObjectAtIndex:indexPath.item];
+    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+    // 删除消息
+    NSString *messageId = [NSString stringWithFormat:@"%lu",(unsigned long)message.messageId];
+    [KFZNet deleteMessageIds:messageId success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        ;
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        DLog(@"%@",error);
+    }];
+}
 
 @end
 
