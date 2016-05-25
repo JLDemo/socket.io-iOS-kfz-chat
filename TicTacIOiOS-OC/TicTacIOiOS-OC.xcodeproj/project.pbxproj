@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		42F361487560232824B377DE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15EF8B02B4547F7C0823C89 /* Pods.framework */; };
+		DB093B321CF55CBE00762F69 /* KFZCollMsgTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB093B301CF55CBE00762F69 /* KFZCollMsgTableViewController.m */; };
+		DB093B331CF55CBE00762F69 /* KFZCollMsgTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB093B311CF55CBE00762F69 /* KFZCollMsgTableViewController.xib */; };
+		DB093B371CF55D2400762F69 /* KFZCollMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB093B351CF55D2400762F69 /* KFZCollMsgTableViewCell.m */; };
+		DB093B381CF55D2400762F69 /* KFZCollMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB093B361CF55D2400762F69 /* KFZCollMsgTableViewCell.xib */; };
 		DB7BE9CB1CEDB29A0050EFDB /* KFZFriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7BE9C91CEDB29A0050EFDB /* KFZFriendTableViewController.m */; };
 		DB7BE9CC1CEDB29A0050EFDB /* KFZFriendTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7BE9CA1CEDB29A0050EFDB /* KFZFriendTableViewController.xib */; };
 		DB7FD6E51CF4238F00BD5DE1 /* KFZNotificationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7FD6E41CF4238F00BD5DE1 /* KFZNotificationTool.m */; };
@@ -51,6 +55,12 @@
 
 /* Begin PBXFileReference section */
 		CF43149EAFAD836170BCA476 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		DB093B2F1CF55CBE00762F69 /* KFZCollMsgTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZCollMsgTableViewController.h; sourceTree = "<group>"; };
+		DB093B301CF55CBE00762F69 /* KFZCollMsgTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZCollMsgTableViewController.m; sourceTree = "<group>"; };
+		DB093B311CF55CBE00762F69 /* KFZCollMsgTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KFZCollMsgTableViewController.xib; sourceTree = "<group>"; };
+		DB093B341CF55D2400762F69 /* KFZCollMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KFZCollMsgTableViewCell.h; path = "TicTacIOiOS-OC/Controllers/KFZCollMsgTableViewCell.h"; sourceTree = SOURCE_ROOT; };
+		DB093B351CF55D2400762F69 /* KFZCollMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KFZCollMsgTableViewCell.m; path = "TicTacIOiOS-OC/Controllers/KFZCollMsgTableViewCell.m"; sourceTree = SOURCE_ROOT; };
+		DB093B361CF55D2400762F69 /* KFZCollMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KFZCollMsgTableViewCell.xib; path = "TicTacIOiOS-OC/Controllers/KFZCollMsgTableViewCell.xib"; sourceTree = SOURCE_ROOT; };
 		DB7BE9C81CEDB29A0050EFDB /* KFZFriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KFZFriendTableViewController.h; path = "TicTacIOiOS-OC/Controllers/KFZFriendTableViewController.h"; sourceTree = SOURCE_ROOT; };
 		DB7BE9C91CEDB29A0050EFDB /* KFZFriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KFZFriendTableViewController.m; path = "TicTacIOiOS-OC/Controllers/KFZFriendTableViewController.m"; sourceTree = SOURCE_ROOT; };
 		DB7BE9CA1CEDB29A0050EFDB /* KFZFriendTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KFZFriendTableViewController.xib; path = "TicTacIOiOS-OC/Controllers/KFZFriendTableViewController.xib"; sourceTree = SOURCE_ROOT; };
@@ -313,6 +323,9 @@
 				DBDB7CA21CE47E0800590173 /* KFZMainViewController.h */,
 				DBDB7CA31CE47E0800590173 /* KFZMainViewController.m */,
 				DBDB7CA41CE47E0800590173 /* KFZMainViewController.xib */,
+				DB093B2F1CF55CBE00762F69 /* KFZCollMsgTableViewController.h */,
+				DB093B301CF55CBE00762F69 /* KFZCollMsgTableViewController.m */,
+				DB093B311CF55CBE00762F69 /* KFZCollMsgTableViewController.xib */,
 			);
 			name = Controllers;
 			path = ../Controllers;
@@ -321,6 +334,9 @@
 		DBDAB5D81CE16C1900C4D0E4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB093B341CF55D2400762F69 /* KFZCollMsgTableViewCell.h */,
+				DB093B351CF55D2400762F69 /* KFZCollMsgTableViewCell.m */,
+				DB093B361CF55D2400762F69 /* KFZCollMsgTableViewCell.xib */,
 			);
 			name = Views;
 			path = ../Views;
@@ -449,6 +465,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB9AABE91CDC347000FF469B /* LaunchScreen.storyboard in Resources */,
+				DB093B381CF55D2400762F69 /* KFZCollMsgTableViewCell.xib in Resources */,
+				DB093B331CF55CBE00762F69 /* KFZCollMsgTableViewController.xib in Resources */,
 				DBDB7CA61CE47E0800590173 /* KFZMainViewController.xib in Resources */,
 				DB7BE9CC1CEDB29A0050EFDB /* KFZFriendTableViewController.xib in Resources */,
 				DB9AABE61CDC347000FF469B /* Assets.xcassets in Resources */,
@@ -537,10 +555,12 @@
 				DBC7D9F51CE9BF0300B2989B /* KFZBaseChatViewController.m in Sources */,
 				DB9AABDE1CDC347000FF469B /* AppDelegate.m in Sources */,
 				DBCAE9241CEABFB000E995F4 /* KFZChatViewController.m in Sources */,
+				DB093B321CF55CBE00762F69 /* KFZCollMsgTableViewController.m in Sources */,
 				DBDB7CA51CE47E0800590173 /* KFZMainViewController.m in Sources */,
 				DBC7D9EB1CE9ADE600B2989B /* KFZSocketTool.m in Sources */,
 				DB7BE9CB1CEDB29A0050EFDB /* KFZFriendTableViewController.m in Sources */,
 				DB9AABDB1CDC347000FF469B /* main.m in Sources */,
+				DB093B371CF55D2400762F69 /* KFZCollMsgTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

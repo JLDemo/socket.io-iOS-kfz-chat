@@ -14,6 +14,7 @@
 #import "KFZSocketTool.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "KFZFriendTableViewController.h"
+#import "KFZCollMsgTableViewController.h"
 
 @interface KFZMainViewController ()<UITableViewDelegate, UITableViewDataSource, KFZSocketToolDelegate>
 
@@ -32,7 +33,7 @@
 
 - (void)addItem {
     UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"好友列表" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
-    UIBarButtonItem *collMsgs = [[UIBarButtonItem alloc] initWithTitle:@"收藏消息" style:UIBarButtonItemStylePlain target:self action:@selector(collectionMessages)];
+    UIBarButtonItem *collMsgs = [[UIBarButtonItem alloc] initWithTitle:@"收藏列表" style:UIBarButtonItemStylePlain target:self action:@selector(collectionMessages)];
     self.navigationItem.rightBarButtonItems = @[friend,collMsgs];
 }
 
@@ -53,6 +54,7 @@
     
     self.socketTool = [KFZSocketTool socketTool];
     [self addItem];
+    
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -223,14 +225,22 @@
     
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+/**
+ * 消息收藏列表
+ */
 - (void)collectionMessages {
     NSDictionary *param = @{
                             @"token" : TOKEN,
                             @"page" : @"1",
                             @"pageSize" : @(COLLECTION_MESSAGE_PAGESIZE)
                             };
-    [KFZNet getCollectionMessagesParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        ;
+    [KFZNet getCollectionMessagesParam:param success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+        NSArray *resultDic = responseObject[@"result"];
+        KFZCollMsgTableViewController *vc = [[KFZCollMsgTableViewController alloc] init];
+        vc.dataSource = [KFZMessage mj_objectArrayWithKeyValuesArray:resultDic];
+        [self.navigationController pushViewController:vc animated:YES];
+        
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         ;
     }];
