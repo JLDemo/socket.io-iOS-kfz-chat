@@ -48,6 +48,18 @@ typedef void(^Faile_B)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull
 + (void)deleteMessageIds:(NSString * _Nullable)messageIds success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
 
 /**
+ * 将消息---》收藏
+ */
++ (void)addCollectionMessageIds:(NSString * _Nullable)messageIds success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
+
+/**
+ * 收藏消息列表
+ */
++ (void)getCollectionMessagesParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile ;
+
+
+
+/**
  * 获取分类消息
  */
 + (void)getCategoryMessagesParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile;

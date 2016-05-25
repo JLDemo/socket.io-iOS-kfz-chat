@@ -29,6 +29,9 @@
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(delete:)];
     [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"删除" action:@selector(delete:)] ];
     
+    [JSQMessagesCollectionViewCell registerMenuAction:@selector(collectionAtIndexPath:)];
+    [UIMenuController sharedMenuController].menuItems = @[ [[UIMenuItem alloc] initWithTitle:@"收藏" action:@selector(collectionAtIndexPath:)] ];
+    
     [self addRefresh];
 }
 
@@ -75,12 +78,17 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if ( action == @selector(delete:)) {
         return YES;
+    } else if ( action == @selector(collectionAtIndexPath:)) {
+        return YES;
     }
     return [super collectionView:collectionView canPerformAction:action forItemAtIndexPath:indexPath withSender:sender];
 }
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender {
     if (action == @selector(delete:)) {
         [self deleteMessageAtIndexPath:indexPath];
+        return;
+    } else if ( action == @selector(collectionAtIndexPath:)) {
+        [self collectionAtIndexPath:indexPath];
         return;
     }
     [super collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
@@ -208,7 +216,9 @@
 }
 
 
-//获取历史消息
+/**
+ * 获取历史消息
+ */
 - (void)getContactMessage {
     NSDictionary *params = @{
                              @"token" : TOKEN,
@@ -283,7 +293,11 @@
 
      */
 }
-- (void)deleteMessageAtIndexPath:(NSIndexPath *)indexPath{
+
+/**
+ * 删除消息
+ */
+- (void)deleteMessageAtIndexPath:(NSIndexPath *)indexPath {
     KFZMessage *message = self.chatModel.messages[indexPath.item];
     [self.chatModel.messages removeObjectAtIndex:indexPath.item];
     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
@@ -293,6 +307,20 @@
         ;
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         DLog(@"%@",error);
+    }];
+}
+
+/**
+ * 收藏消息
+ */
+- (void)collectionAtIndexPath:(NSIndexPath *)indexPath {
+    KFZMessage *message = self.chatModel.messages[indexPath.item];
+    // 收藏消息
+    NSString *messageId = [NSString stringWithFormat:@"%lu",(unsigned long)message.messageId];
+    [KFZNet addCollectionMessageIds:messageId success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"================收藏成功");
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error);
     }];
 }
 

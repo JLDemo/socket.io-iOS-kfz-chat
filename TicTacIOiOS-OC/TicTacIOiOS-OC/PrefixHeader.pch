@@ -53,8 +53,10 @@
 #define CATEGORY_MESSAGE  @"/Interface/Message/getCategoryMessage"
 //删除消息
 #define DELETE_MESSAGE @"/Interface/Message/delMessage"
-
-
+//收藏消息列表
+#define COLLECTION_MESSAGES @"/Interface/Message/getCollectList"
+//收藏消息
+#define ADD_COLLECTION_MESSAGE @"/Interface/Message/collectMessage"
 
 // 添加好友备注
 #define MODIFY_FRIEND_NAME @"/Interface/Contact/modifyFriendRemark"
@@ -76,7 +78,8 @@
 #define DIAMETER 30
 // 获取聊天记录的pageSize
 #define MESSAGE_PAGESIZE 5
-
+// 收藏消息分页大小
+#define COLLECTION_MESSAGE_PAGESIZE 10
 
 #import "KFZNet.h"
 

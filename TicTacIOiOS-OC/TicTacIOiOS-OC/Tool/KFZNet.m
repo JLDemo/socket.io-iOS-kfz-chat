@@ -73,14 +73,41 @@
                             @"token" : TOKEN,
                             @"messageIds" : messageIds
                             };
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager POST:urlString parameters:param progress:nil success:success failure:faile];
+    [self POST:urlString params:param success:success faile:faile];
     /*
      token	签名	true	注：web用户传空值
      messageIds	消息id列表
      */
 }
+
+/**
+ * 将消息---》收藏
+ */
++ (void)addCollectionMessageIds:(NSString * _Nullable)messageIds success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,ADD_COLLECTION_MESSAGE];
+    
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"messageIds" : messageIds
+                            };
+    [self POST:urlString params:param success:success faile:faile];
+}
+
+/**
+ * 收藏消息列表
+ */
++ (void)getCollectionMessagesParam:(NSDictionary * _Nullable)param success:(Success_B _Nullable)success faile:(Faile_B _Nullable)faile {
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",SERVER,COLLECTION_MESSAGES];
+    
+    [self POST:urlString params:param success:success faile:faile];
+    /*
+     token	签名	true	注：web用户传空值
+     page	页码	true	分页页码
+     pageSize	分页数	true	分页数
+     isHistory	是否取历史消息
+     */
+}
+
 
 /**
  * 获取分类消息

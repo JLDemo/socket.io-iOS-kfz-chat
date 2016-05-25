@@ -32,7 +32,8 @@
 
 - (void)addItem {
     UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"好友列表" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
-    self.navigationItem.rightBarButtonItems = @[friend];
+    UIBarButtonItem *collMsgs = [[UIBarButtonItem alloc] initWithTitle:@"收藏消息" style:UIBarButtonItemStylePlain target:self action:@selector(collectionMessages)];
+    self.navigationItem.rightBarButtonItems = @[friend,collMsgs];
 }
 
 
@@ -221,6 +222,24 @@
     KFZFriendTableViewController *vc = [[KFZFriendTableViewController alloc] init];
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)collectionMessages {
+    NSDictionary *param = @{
+                            @"token" : TOKEN,
+                            @"page" : @"1",
+                            @"pageSize" : @(COLLECTION_MESSAGE_PAGESIZE)
+                            };
+    [KFZNet getCollectionMessagesParam:param success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        ;
+    } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        ;
+    }];
+    /*
+     token	签名	true	注：web用户传空值
+     page	页码	true	分页页码
+     pageSize	分页数	true	分页数
+     isHistory	是否取历史消息
+     */
 }
 
 /**
