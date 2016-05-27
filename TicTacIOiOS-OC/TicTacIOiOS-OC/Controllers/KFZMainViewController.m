@@ -35,6 +35,9 @@
     UIBarButtonItem *friend = [[UIBarButtonItem alloc] initWithTitle:@"好友列表" style:UIBarButtonItemStylePlain target:self action:@selector(friend)];
     UIBarButtonItem *collMsgs = [[UIBarButtonItem alloc] initWithTitle:@"收藏列表" style:UIBarButtonItemStylePlain target:self action:@selector(collectionMessages)];
     self.navigationItem.rightBarButtonItems = @[friend,collMsgs];
+    
+    UIBarButtonItem *hudItem = [[UIBarButtonItem alloc] initWithTitle:@"tip" style:UIBarButtonItemStylePlain target:self action:@selector(showTip)];
+    self.navigationItem.leftBarButtonItem = hudItem;
 }
 
 
@@ -220,6 +223,10 @@
 
 
 #pragma -mark 导航栏 按钮 事件
+- (void)showTip {
+    NSString *string = @"this is tip";
+    [KFZToast showTest:string];
+}
 - (void)friend {
     KFZFriendTableViewController *vc = [[KFZFriendTableViewController alloc] init];
     

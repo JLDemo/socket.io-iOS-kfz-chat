@@ -15,6 +15,7 @@
 		DB7BE9CB1CEDB29A0050EFDB /* KFZFriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7BE9C91CEDB29A0050EFDB /* KFZFriendTableViewController.m */; };
 		DB7BE9CC1CEDB29A0050EFDB /* KFZFriendTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7BE9CA1CEDB29A0050EFDB /* KFZFriendTableViewController.xib */; };
 		DB7FD6E51CF4238F00BD5DE1 /* KFZNotificationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7FD6E41CF4238F00BD5DE1 /* KFZNotificationTool.m */; };
+		DB84ABF61CF7DB4200526608 /* KFZToast.m in Sources */ = {isa = PBXBuildFile; fileRef = DB84ABF51CF7DB4200526608 /* KFZToast.m */; };
 		DB9AABDB1CDC347000FF469B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9AABDA1CDC347000FF469B /* main.m */; };
 		DB9AABDE1CDC347000FF469B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9AABDD1CDC347000FF469B /* AppDelegate.m */; };
 		DB9AABE61CDC347000FF469B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9AABE51CDC347000FF469B /* Assets.xcassets */; };
@@ -66,6 +67,8 @@
 		DB7BE9CA1CEDB29A0050EFDB /* KFZFriendTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KFZFriendTableViewController.xib; path = "TicTacIOiOS-OC/Controllers/KFZFriendTableViewController.xib"; sourceTree = SOURCE_ROOT; };
 		DB7FD6E31CF4238F00BD5DE1 /* KFZNotificationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZNotificationTool.h; sourceTree = "<group>"; };
 		DB7FD6E41CF4238F00BD5DE1 /* KFZNotificationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZNotificationTool.m; sourceTree = "<group>"; };
+		DB84ABF41CF7DB4200526608 /* KFZToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KFZToast.h; sourceTree = "<group>"; };
+		DB84ABF51CF7DB4200526608 /* KFZToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFZToast.m; sourceTree = "<group>"; };
 		DB9AABD61CDC347000FF469B /* TicTacIOiOS-OC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacIOiOS-OC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB9AABDA1CDC347000FF469B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DB9AABDC1CDC347000FF469B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -353,6 +356,8 @@
 				DBC7D9EA1CE9ADE600B2989B /* KFZSocketTool.m */,
 				DB7FD6E31CF4238F00BD5DE1 /* KFZNotificationTool.h */,
 				DB7FD6E41CF4238F00BD5DE1 /* KFZNotificationTool.m */,
+				DB84ABF41CF7DB4200526608 /* KFZToast.h */,
+				DB84ABF51CF7DB4200526608 /* KFZToast.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -555,6 +560,7 @@
 				DBC7D9F51CE9BF0300B2989B /* KFZBaseChatViewController.m in Sources */,
 				DB9AABDE1CDC347000FF469B /* AppDelegate.m in Sources */,
 				DBCAE9241CEABFB000E995F4 /* KFZChatViewController.m in Sources */,
+				DB84ABF61CF7DB4200526608 /* KFZToast.m in Sources */,
 				DB093B321CF55CBE00762F69 /* KFZCollMsgTableViewController.m in Sources */,
 				DBDB7CA51CE47E0800590173 /* KFZMainViewController.m in Sources */,
 				DBC7D9EB1CE9ADE600B2989B /* KFZSocketTool.m in Sources */,
