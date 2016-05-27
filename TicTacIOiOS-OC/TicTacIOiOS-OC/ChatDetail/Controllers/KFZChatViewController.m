@@ -72,9 +72,10 @@
 - (void)socketTool:(SocketIOClient *)socket sendMessageStateNotice:(NSArray *)array {
     NSDictionary *resultDic = [array firstObject][@"result"];
     NSUInteger messageId = [resultDic[@"messageId"] integerValue];
-    for (int i=self.chatModel.messages.count - 1; i>=0; i--) {
+    for (int i=(int)self.chatModel.messages.count - 1; i>=0; i--) {
         KFZMessage *message = self.chatModel.messages[i];
         if (message.messageId == messageId) {
+            [KFZToast showTest:@"发送失败！"];
             // 将消息标记为发送失败，并保存到数据库 
 #warning 将消息标记为发送失败，并保存到数据库
             return;

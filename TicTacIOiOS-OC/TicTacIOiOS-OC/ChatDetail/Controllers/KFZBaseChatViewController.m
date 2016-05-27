@@ -304,9 +304,9 @@
     // 删除消息
     NSString *messageId = [NSString stringWithFormat:@"%lu",(unsigned long)message.messageId];
     [KFZNet deleteMessageIds:messageId success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        ;
+        [KFZToast showTest:@"消息已删除"];
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        DLog(@"%@",error);
+        [KFZToast showTest:@"消息删除失败！"];
     }];
 }
 
@@ -318,9 +318,9 @@
     // 收藏消息
     NSString *messageId = [NSString stringWithFormat:@"%lu",(unsigned long)message.messageId];
     [KFZNet addCollectionMessageIds:messageId success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"================收藏成功");
+        [KFZToast showTest:@"收藏成功"];
     } faile:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        [KFZToast showTest:@"收藏失败"];
     }];
 }
 
