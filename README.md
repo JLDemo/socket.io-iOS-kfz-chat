@@ -1,2 +1,2 @@
 # socket.io-iOS-chat
-socket.io-iOS-chat
+作为JSQ的联系项目。
